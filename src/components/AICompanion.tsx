@@ -46,10 +46,10 @@ const AICompanion = () => {
     // Simulate AI response
     setTimeout(() => {
       const aiResponses = [
-        "Perfect! Let's adjust tomorrow's intensity based on how you're feeling today.",
-        "I understand. I've adjusted your evening workout to be more restorative.",
-        "That's the spirit! I'm adding a bonus challenge to your next session.",
-        "Rest is crucial for progress. I've scheduled a recovery day for tomorrow.",
+        "Perfect! 💪 I've analyzed your energy levels and optimized tomorrow's workout. You're building incredible momentum!",
+        "I hear you. 🧘 I've adjusted your evening session to be more restorative with gentle stretching and breathing exercises.",
+        "That's the spirit! 🚀 Based on your excellent progress, I'm adding a bonus challenge to push your limits safely.",
+        "Rest is crucial for progress. 💙 I've scheduled a recovery day for tomorrow to help your muscles rebuild stronger.",
       ];
       
       const aiMessage: Message = {

@@ -102,11 +102,18 @@ const AISummaryCard = ({ onboardingData, onStart }: AISummaryCardProps) => {
             ))}
           </div>
 
+          {/* Affirmation */}
+          <div className="bg-accent/10 border border-accent/20 rounded-lg p-4 mt-4">
+            <p className="text-center text-foreground font-medium italic">
+              "Let's build momentum together. Every step forward is progress."
+            </p>
+          </div>
+
           {/* CTA */}
           <Button
             onClick={onStart}
             size="lg"
-            className="w-full sm:w-auto px-8 mt-4"
+            className="w-full sm:w-auto px-8 mt-4 animate-pulse-glow"
           >
             Start Your Journey
           </Button>

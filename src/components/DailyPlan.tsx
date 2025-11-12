@@ -97,16 +97,30 @@ const DailyPlan = () => {
       a.id === activityId ? { ...a, feedback } : a
     ));
 
-    const feedbackMessages: Record<string, string> = {
-      "loved": "Amazing! 🎉 I'm adding a bonus challenge for tomorrow based on your energy!",
-      "okay": "Got it. I'll keep tomorrow's intensity similar to today.",
-      "tired": "No worries! 💙 I'm adjusting tomorrow's plan to be lighter and more restorative.",
+    const feedbackMessages: Record<string, { title: string; description: string; emoji: string }> = {
+      "loved": {
+        title: "Fantastic energy! 💪",
+        description: "I'm adding a bonus challenge for tomorrow. You're crushing it!",
+        emoji: "🎉"
+      },
+      "okay": {
+        title: "Steady progress",
+        description: "I'll keep tomorrow's intensity similar. Consistency is key!",
+        emoji: "👍"
+      },
+      "tired": {
+        title: "Recovery mode activated",
+        description: "Tomorrow will be lighter with extra stretching. Rest is part of the journey!",
+        emoji: "💙"
+      },
     };
 
     if (feedback) {
+      const message = feedbackMessages[feedback];
       toast({
-        title: "Feedback received",
-        description: feedbackMessages[feedback],
+        title: message.title,
+        description: message.description,
+        duration: 5000,
       });
     }
   };
@@ -139,7 +153,7 @@ const DailyPlan = () => {
             <Card
               key={activity.id}
               className={`p-6 border-border/50 hover:border-primary/50 transition-all duration-300 group relative overflow-hidden ${
-                activity.completed ? "opacity-75" : "hover:shadow-card"
+                activity.completed ? "opacity-75" : "hover:shadow-card hover:scale-[1.02]"
               }`}
             >
               {activity.completed && (

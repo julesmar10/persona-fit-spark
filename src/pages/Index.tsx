@@ -8,6 +8,9 @@ import OnboardingFlow, { OnboardingData } from "@/components/OnboardingFlow";
 import AISummaryCard from "@/components/AISummaryCard";
 import ProgressDashboard from "@/components/ProgressDashboard";
 import SmartScheduling from "@/components/SmartScheduling";
+import WeeklyInsights from "@/components/WeeklyInsights";
+import NextWeekPreview from "@/components/NextWeekPreview";
+import SkipWorkoutHandler from "@/components/SkipWorkoutHandler";
 
 type AppState = "onboarding" | "summary" | "dashboard";
 
@@ -15,6 +18,7 @@ const Index = () => {
   const [appState, setAppState] = useState<AppState>("onboarding");
   const [onboardingData, setOnboardingData] = useState<OnboardingData | null>(null);
   const [userName] = useState("Alex");
+  const [showSkipHandler, setShowSkipHandler] = useState(false);
 
   const handleOnboardingComplete = (data: OnboardingData) => {
     setOnboardingData(data);
@@ -59,8 +63,17 @@ const Index = () => {
           {/* Progress Dashboard */}
           <ProgressDashboard />
 
+          {/* Weekly Insights */}
+          <WeeklyInsights />
+
+          {/* Skip Workout Handler (conditional) */}
+          {showSkipHandler && <SkipWorkoutHandler onClose={() => setShowSkipHandler(false)} />}
+
           {/* AI Companion Section */}
           <AICompanion />
+
+          {/* Next Week Preview */}
+          <NextWeekPreview />
         </div>
       </main>
     </div>
