@@ -152,12 +152,25 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
+    background: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--muted) / 0.3) 100%);
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl;
   }
 
   /* Smooth scrolling */
@@ -169,5 +182,102 @@ All colors MUST be HSL.
   ::selection {
     background: hsl(var(--mint) / 0.3);
     color: hsl(var(--foreground));
+  }
+}
+
+@layer utilities {
+  /* Micro-interactions and premium effects */
+  .hover-lift {
+    @apply transition-all duration-300 ease-out;
+  }
+  
+  .hover-lift:hover {
+    @apply -translate-y-1;
+    box-shadow: var(--shadow-hover);
+  }
+
+  .card-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
+  }
+
+  .save-pulse {
+    animation: save-pulse 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  @keyframes save-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+  }
+
+  .streak-flare {
+    animation: streak-flare 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  @keyframes streak-flare {
+    0% { 
+      transform: scale(1) rotate(0deg);
+      filter: brightness(1);
+    }
+    25% { 
+      transform: scale(1.15) rotate(-5deg);
+      filter: brightness(1.3);
+    }
+    50% { 
+      transform: scale(1.3) rotate(5deg);
+      filter: brightness(1.5);
+    }
+    75% { 
+      transform: scale(1.15) rotate(-3deg);
+      filter: brightness(1.2);
+    }
+    100% { 
+      transform: scale(1) rotate(0deg);
+      filter: brightness(1);
+    }
+  }
+
+  .glow-on-hover {
+    @apply transition-all duration-300;
+  }
+
+  .glow-on-hover:hover {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.4);
+  }
+
+  /* Shimmer effect for progress bars */
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--primary) / 0.3) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+
+  /* Adaptive tone classes */
+  .motivation-bright {
+    @apply brightness-110 saturate-110;
+  }
+
+  .recovery-calm {
+    @apply brightness-95 saturate-75;
+    filter: blur(0.3px);
   }
 }
