@@ -32,58 +32,52 @@ const AISummaryCard = ({ onboardingData, onStart }: AISummaryCardProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-6">
-      <Card className="w-full max-w-3xl p-10 border-border/50 hover-lift glow-on-hover animate-fade-in" style={{ boxShadow: "var(--shadow-card)" }}>
-        <div className="text-center space-y-8">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <Card className="w-full max-w-3xl p-8 border-border/50 shadow-card animate-fade-in">
+        <div className="text-center space-y-6">
           {/* AI Icon */}
-          <div className="w-24 h-24 rounded-3xl bg-gradient-hero flex items-center justify-center mx-auto animate-glow" style={{ boxShadow: "var(--shadow-glow-mint)" }}>
-            <Sparkles className="w-12 h-12 text-primary-foreground" />
+          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto animate-pulse-glow">
+            <Sparkles className="w-10 h-10 text-primary-foreground" />
           </div>
 
           {/* Title */}
-          <div className="space-y-3">
-            <h2 className="text-4xl font-bold text-foreground">
+          <div>
+            <h2 className="text-3xl font-bold text-foreground mb-2">
               Your Personalized Plan is Ready!
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-muted-foreground">
               Based on your profile, I've created the perfect fitness journey for you
             </p>
           </div>
 
           {/* AI Summary */}
-          <div className="bg-gradient-card p-8 rounded-2xl text-left space-y-6 border border-border/30">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0" style={{ boxShadow: "var(--shadow-soft)" }}>
-                <Target className="w-6 h-6 text-primary" />
-              </div>
+          <div className="bg-gradient-card p-6 rounded-xl text-left space-y-4">
+            <div className="flex items-start gap-3">
+              <Target className="w-5 h-5 text-primary mt-1 shrink-0" />
               <div>
-                <p className="font-bold text-foreground mb-2 text-lg">Your Goal</p>
-                <p className="text-base text-muted-foreground leading-relaxed">
-                  I've built a <span className="text-foreground font-semibold">6-week adaptive program</span> with {getPlanDescription()}.
+                <p className="font-semibold text-foreground mb-1">Your Goal</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  I've built a <span className="text-foreground font-medium">6-week adaptive program</span> with {getPlanDescription()}.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0" style={{ boxShadow: "var(--shadow-soft)" }}>
-                <Calendar className="w-6 h-6 text-primary" />
-              </div>
+            <div className="flex items-start gap-3">
+              <Calendar className="w-5 h-5 text-primary mt-1 shrink-0" />
               <div>
-                <p className="font-bold text-foreground mb-2 text-lg">Your Schedule</p>
-                <p className="text-base text-muted-foreground leading-relaxed">
-                  Each session is designed for <span className="text-foreground font-semibold">{onboardingData.timeAvailable} minutes</span>, 
+                <p className="font-semibold text-foreground mb-1">Your Schedule</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Each session is designed for <span className="text-foreground font-medium">{onboardingData.timeAvailable} minutes</span>, 
                   perfectly tailored to fit your lifestyle.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0" style={{ boxShadow: "var(--shadow-soft)" }}>
-                <TrendingUp className="w-6 h-6 text-primary" />
-              </div>
+            <div className="flex items-start gap-3">
+              <TrendingUp className="w-5 h-5 text-primary mt-1 shrink-0" />
               <div>
-                <p className="font-bold text-foreground mb-2 text-lg">My Coaching Style</p>
-                <p className="text-base text-muted-foreground leading-relaxed">
+                <p className="font-semibold text-foreground mb-1">My Coaching Style</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   {getMotivationTone()}
                 </p>
               </div>
@@ -91,7 +85,7 @@ const AISummaryCard = ({ onboardingData, onStart }: AISummaryCardProps) => {
           </div>
 
           {/* Features List */}
-          <div className="grid grid-cols-2 gap-6 pt-4">
+          <div className="grid grid-cols-2 gap-4 pt-4">
             {[
               "Daily adaptive workouts",
               "Nutrition guidance",
@@ -100,17 +94,17 @@ const AISummaryCard = ({ onboardingData, onStart }: AISummaryCardProps) => {
             ].map((feature, index) => (
               <div
                 key={index}
-                className="flex items-center gap-3 text-base text-muted-foreground"
+                className="flex items-center gap-2 text-sm text-muted-foreground"
               >
-                <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
                 {feature}
               </div>
             ))}
           </div>
 
           {/* Affirmation */}
-          <div className="bg-lavender/10 border-2 border-lavender/30 rounded-2xl p-6 mt-6">
-            <p className="text-center text-foreground font-semibold text-lg italic">
+          <div className="bg-accent/10 border border-accent/20 rounded-lg p-4 mt-4">
+            <p className="text-center text-foreground font-medium italic">
               "Let's build momentum together. Every step forward is progress."
             </p>
           </div>
@@ -119,7 +113,7 @@ const AISummaryCard = ({ onboardingData, onStart }: AISummaryCardProps) => {
           <Button
             onClick={onStart}
             size="lg"
-            className="w-full sm:w-auto px-10 mt-6 text-base"
+            className="w-full sm:w-auto px-8 mt-4 animate-pulse-glow"
           >
             Start Your Journey
           </Button>

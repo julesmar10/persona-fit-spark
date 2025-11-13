@@ -83,47 +83,42 @@ const AICompanion = () => {
 
   return (
     <section className="animate-fade-in" style={{ animationDelay: "0.3s" }}>
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold text-foreground flex items-center gap-3">
-          <Bot className="w-8 h-8 text-primary" />
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
+          <Bot className="w-6 h-6 text-primary" />
           AI Companion
         </h2>
-        <p className="text-base text-muted-foreground mt-2">
+        <p className="text-sm text-muted-foreground mt-1">
           Real-time feedback and adaptive recommendations
         </p>
       </div>
 
-      <Card className="border-border/50 overflow-hidden hover-lift" style={{ boxShadow: "var(--shadow-card)" }}>
-        <div className="bg-gradient-card p-6 border-b border-border/50">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-hero flex items-center justify-center animate-glow" style={{ boxShadow: "var(--shadow-glow-mint)" }}>
-              <Sparkles className="w-6 h-6 text-primary-foreground" />
+      <Card className="border-border/50 overflow-hidden">
+        <div className="bg-gradient-card p-4 border-b border-border/50">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center animate-pulse-glow">
+              <Sparkles className="w-4 h-4 text-primary-foreground" />
             </div>
             <div>
-              <p className="font-bold text-foreground text-lg">FitAI Assistant</p>
-              <p className="text-sm text-muted-foreground">Always learning, always adapting</p>
+              <p className="font-semibold text-foreground">FitAI Assistant</p>
+              <p className="text-xs text-muted-foreground">Always learning, always adapting</p>
             </div>
           </div>
         </div>
 
-        <ScrollArea className="h-[320px] p-6">
-          <div className="space-y-5">
+        <ScrollArea className="h-[300px] p-4">
+          <div className="space-y-4">
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"} animate-fade-in`}
+                className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
               >
                 <div
-                  className={`max-w-[80%] p-4 rounded-2xl transition-all duration-300 ${
+                  className={`max-w-[80%] p-3 rounded-2xl ${
                     message.sender === "user"
                       ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-foreground border border-border/30"
+                      : "bg-muted text-foreground"
                   }`}
-                  style={
-                    message.sender === "ai"
-                      ? { boxShadow: "var(--shadow-soft)" }
-                      : undefined
-                  }
                 >
                   <p className="text-sm leading-relaxed">{message.text}</p>
                 </div>
@@ -132,31 +127,31 @@ const AICompanion = () => {
           </div>
         </ScrollArea>
 
-        <div className="p-6 border-t border-border/50 space-y-4 bg-background/50">
-          <div className="flex flex-wrap gap-3">
+        <div className="p-4 border-t border-border/50 space-y-3">
+          <div className="flex flex-wrap gap-2">
             {quickReplies.map((reply, index) => (
               <Button
                 key={index}
                 variant="outline"
                 size="sm"
                 onClick={() => handleSendMessage(reply)}
-                className="text-sm hover-lift"
+                className="text-xs"
               >
                 {reply}
               </Button>
             ))}
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex gap-2">
             <Input
               placeholder="Share your thoughts..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSendMessage(inputValue)}
-              className="flex-1 h-11 rounded-xl"
+              className="flex-1"
             />
-            <Button onClick={() => handleSendMessage(inputValue)} size="icon" className="h-11 w-11">
-              <Send className="w-5 h-5" />
+            <Button onClick={() => handleSendMessage(inputValue)} size="icon">
+              <Send className="w-4 h-4" />
             </Button>
           </div>
         </div>

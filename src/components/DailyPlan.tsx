@@ -146,8 +146,8 @@ const DailyPlan = () => {
         </Badge>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {activities.map((activity, index) => {
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {activities.map((activity) => {
           const TypeIcon = getTypeIcon(activity.type);
           return (
             <Card

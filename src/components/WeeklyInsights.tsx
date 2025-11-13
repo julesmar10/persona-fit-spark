@@ -29,41 +29,38 @@ const WeeklyInsights = () => {
 
   return (
     <section className="animate-fade-in" style={{ animationDelay: "0.3s" }}>
-      <div className="mb-8">
+      <div className="mb-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-3xl font-bold text-foreground flex items-center gap-3">
-              <Award className="w-8 h-8 text-secondary" />
+            <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
+              <Award className="w-6 h-6 text-secondary" />
               This Week's Insights
             </h2>
-            <p className="text-base text-muted-foreground mt-2">
+            <p className="text-sm text-muted-foreground mt-1">
               Personalized patterns from your activity
             </p>
           </div>
-          <Badge variant="secondary" className="gap-2 px-4 py-2">
-            <Zap className="w-4 h-4" />
+          <Badge variant="secondary" className="gap-2">
+            <Zap className="w-3 h-3" />
             AI Analysis
           </Badge>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {insights.map((insight, index) => (
           <Card
             key={index}
-            className="p-8 border-border/50 hover:border-primary/50 transition-all duration-300 hover-lift glow-on-hover group"
-            style={{ 
-              animationDelay: `${index * 0.1}s`,
-              boxShadow: "var(--shadow-card)"
-            }}
+            className="p-6 border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-card group"
+            style={{ animationDelay: `${index * 0.1}s` }}
           >
-            <div className="space-y-4">
-              <div className={`w-14 h-14 rounded-2xl ${insight.bgColor} flex items-center justify-center group-hover:scale-110 transition-transform`} style={{ boxShadow: "var(--shadow-soft)" }}>
-                <insight.icon className={`w-7 h-7 ${insight.color}`} />
+            <div className="space-y-3">
+              <div className={`w-12 h-12 rounded-xl ${insight.bgColor} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                <insight.icon className={`w-6 h-6 ${insight.color}`} />
               </div>
               <div>
-                <h3 className="font-bold text-foreground mb-2 text-lg">{insight.title}</h3>
-                <p className="text-base text-muted-foreground leading-relaxed">
+                <h3 className="font-semibold text-foreground mb-1">{insight.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   {insight.description}
                 </p>
               </div>

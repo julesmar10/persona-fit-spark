@@ -25,41 +25,41 @@ const ProgressDashboard = () => {
 
   return (
     <section className="animate-fade-in" style={{ animationDelay: "0.1s" }}>
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold text-foreground flex items-center gap-3">
-          <TrendingUp className="w-8 h-8 text-primary" />
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
+          <TrendingUp className="w-6 h-6 text-primary" />
           Your Progress
         </h2>
-        <p className="text-base text-muted-foreground mt-2">
+        <p className="text-sm text-muted-foreground mt-1">
           Track your journey and celebrate milestones
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Weekly Completion Ring */}
-        <Card className="p-8 border-border/50 col-span-1 hover-lift" style={{ boxShadow: "var(--shadow-card)" }}>
-          <div className="text-center space-y-5">
-            <div className="relative w-36 h-36 mx-auto">
-              <svg className="transform -rotate-90 w-36 h-36">
+        <Card className="p-6 border-border/50 col-span-1">
+          <div className="text-center space-y-4">
+            <div className="relative w-32 h-32 mx-auto">
+              <svg className="transform -rotate-90 w-32 h-32">
                 <circle
-                  cx="72"
-                  cy="72"
-                  r="64"
+                  cx="64"
+                  cy="64"
+                  r="56"
                   stroke="currentColor"
-                  strokeWidth="10"
+                  strokeWidth="8"
                   fill="none"
                   className="text-muted"
                 />
                 <circle
-                  cx="72"
-                  cy="72"
-                  r="64"
+                  cx="64"
+                  cy="64"
+                  r="56"
                   stroke="url(#progress-gradient)"
-                  strokeWidth="10"
+                  strokeWidth="8"
                   fill="none"
-                  strokeDasharray={`${(4/5) * 2 * Math.PI * 64} ${2 * Math.PI * 64}`}
+                  strokeDasharray={`${(4/5) * 2 * Math.PI * 56} ${2 * Math.PI * 56}`}
                   strokeLinecap="round"
-                  className="transition-all duration-1000 animate-glow"
+                  className="transition-all duration-1000"
                 />
                 <defs>
                   <linearGradient id="progress-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -69,20 +69,20 @@ const ProgressDashboard = () => {
                 </defs>
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <p className="text-4xl font-bold text-foreground">4/5</p>
-                <p className="text-sm text-muted-foreground mt-1">This Week</p>
+                <p className="text-3xl font-bold text-foreground">4/5</p>
+                <p className="text-xs text-muted-foreground">This Week</p>
               </div>
             </div>
 
             <div>
-              <p className="font-bold text-foreground mb-3 text-lg">Weekly Goal Progress</p>
-              <div className="flex justify-center gap-2">
+              <p className="font-semibold text-foreground mb-2">Weekly Goal Progress</p>
+              <div className="flex justify-center gap-1">
                 {weeklyProgress.map((day, index) => (
                   <div
                     key={index}
-                    className={`w-9 h-9 rounded-xl flex items-center justify-center text-sm font-semibold transition-all duration-300 ${
+                    className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-medium transition-all duration-300 ${
                       day.completed
-                        ? "bg-primary text-primary-foreground hover-lift"
+                        ? "bg-primary text-primary-foreground"
                         : "bg-muted text-muted-foreground"
                     }`}
                   >
@@ -95,37 +95,36 @@ const ProgressDashboard = () => {
         </Card>
 
         {/* Achievements Grid */}
-        <Card className="p-8 border-border/50 col-span-1 lg:col-span-2 hover-lift" style={{ boxShadow: "var(--shadow-card)" }}>
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <Trophy className="w-6 h-6 text-secondary" />
-              <h3 className="font-bold text-foreground text-lg">Achievements</h3>
+        <Card className="p-6 border-border/50 col-span-1 lg:col-span-2">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Trophy className="w-5 h-5 text-secondary" />
+              <h3 className="font-semibold text-foreground">Achievements</h3>
             </div>
-            <Badge variant="secondary" className="px-4 py-1">3/6 Unlocked</Badge>
+            <Badge variant="secondary">3/6 Unlocked</Badge>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {badges.map((badge) => (
               <div
                 key={badge.id}
-                className={`p-5 rounded-2xl border-2 transition-all duration-300 ${
+                className={`p-4 rounded-xl border-2 transition-all duration-300 ${
                   badge.earned
-                    ? "border-primary bg-primary/10 hover:border-primary/70 hover-lift"
+                    ? "border-primary bg-primary/5 hover:border-primary/70"
                     : "border-border bg-muted/30 opacity-60"
                 }`}
-                style={badge.earned ? { boxShadow: "var(--shadow-soft)" } : undefined}
               >
-                <div className="text-center space-y-3">
-                  <div className={`text-4xl ${badge.earned ? "animate-float" : "grayscale"}`}>
+                <div className="text-center space-y-2">
+                  <div className={`text-3xl ${badge.earned ? "animate-pulse-glow" : "grayscale"}`}>
                     {badge.icon}
                   </div>
                   <div>
-                    <p className="font-bold text-foreground text-sm">{badge.name}</p>
-                    <p className="text-xs text-muted-foreground mt-1.5">{badge.description}</p>
+                    <p className="font-semibold text-foreground text-sm">{badge.name}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{badge.description}</p>
                   </div>
                   {badge.earned && (
-                    <div className="flex items-center justify-center gap-1 text-xs text-primary font-semibold">
-                      <Star className="w-3.5 h-3.5 fill-primary" />
+                    <div className="flex items-center justify-center gap-1 text-xs text-primary">
+                      <Star className="w-3 h-3 fill-primary" />
                       <span>Earned!</span>
                     </div>
                   )}
@@ -136,35 +135,35 @@ const ProgressDashboard = () => {
         </Card>
 
         {/* Stats Summary */}
-        <Card className="p-8 border-border/50 col-span-1 lg:col-span-3 hover-lift" style={{ boxShadow: "var(--shadow-card)" }}>
-          <h3 className="font-bold text-foreground mb-6 flex items-center gap-3 text-lg">
-            <Target className="w-6 h-6 text-accent" />
+        <Card className="p-6 border-border/50 col-span-1 lg:col-span-3">
+          <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
+            <Target className="w-5 h-5 text-accent" />
             Overall Progress
           </h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="space-y-3">
-              <div className="flex justify-between text-base">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Total Workouts</span>
-                <span className="font-bold text-foreground">47 / 60</span>
+                <span className="font-semibold text-foreground">47 / 60</span>
               </div>
-              <Progress value={78} className="h-2.5" />
+              <Progress value={78} className="h-2" />
             </div>
 
-            <div className="space-y-3">
-              <div className="flex justify-between text-base">
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Calories Burned</span>
-                <span className="font-bold text-foreground">12.4k / 15k</span>
+                <span className="font-semibold text-foreground">12.4k / 15k</span>
               </div>
-              <Progress value={83} className="h-2.5" />
+              <Progress value={83} className="h-2" />
             </div>
 
-            <div className="space-y-3">
-              <div className="flex justify-between text-base">
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Active Days</span>
-                <span className="font-bold text-foreground">32 / 42</span>
+                <span className="font-semibold text-foreground">32 / 42</span>
               </div>
-              <Progress value={76} className="h-2.5" />
+              <Progress value={76} className="h-2" />
             </div>
           </div>
         </Card>

@@ -8,32 +8,32 @@ interface SkipWorkoutHandlerProps {
 
 const SkipWorkoutHandler = ({ onClose }: SkipWorkoutHandlerProps) => {
   return (
-    <Card className="border-lavender/50 bg-gradient-to-br from-lavender/10 to-accent/10 animate-fade-in hover-lift" style={{ boxShadow: "var(--shadow-card)" }}>
-      <div className="p-8">
-        <div className="flex items-start gap-5">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-calm flex items-center justify-center shrink-0 animate-heart-beat" style={{ boxShadow: "var(--shadow-soft)" }}>
-            <Heart className="w-7 h-7 text-white" />
+    <Card className="border-accent/50 bg-gradient-to-br from-accent/5 to-accent/10 animate-fade-in">
+      <div className="p-6">
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center shrink-0 animate-pulse-glow">
+            <Heart className="w-6 h-6 text-accent-foreground" />
           </div>
           
-          <div className="flex-1 space-y-4">
+          <div className="flex-1 space-y-3">
             <div>
-              <h3 className="font-bold text-foreground text-xl mb-2">
+              <h3 className="font-semibold text-foreground text-lg mb-1">
                 Recovery Day Added
               </h3>
-              <p className="text-base text-muted-foreground leading-relaxed">
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 I've noticed you need some rest. Tomorrow is now a gentle recovery day to help you 
                 maintain your amazing 12-day streak while giving your body the care it deserves.
               </p>
             </div>
 
-            <div className="flex items-center gap-3 text-sm bg-background/60 px-5 py-3 rounded-xl border border-border/50">
-              <Calendar className="w-5 h-5 text-accent" />
+            <div className="flex items-center gap-2 text-sm bg-background/50 px-4 py-2 rounded-lg">
+              <Calendar className="w-4 h-4 text-accent" />
               <span className="text-muted-foreground">Tomorrow:</span>
-              <span className="text-foreground font-semibold">Gentle Stretching & Meditation</span>
+              <span className="text-foreground font-medium">Gentle Stretching & Meditation</span>
             </div>
 
             <div className="pt-2">
-              <Button onClick={onClose} variant="outline" size="default" className="w-full h-11">
+              <Button onClick={onClose} variant="outline" size="sm" className="w-full">
                 Got it, thanks!
               </Button>
             </div>

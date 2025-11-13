@@ -31,14 +31,14 @@ const PlanRatingCard = () => {
 
   if (submitted) {
     return (
-      <Card className="p-8 border-border/50 bg-gradient-to-br from-mint/10 to-primary/10 animate-fade-in border-mint/30" style={{ boxShadow: "var(--shadow-card)" }}>
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-hero flex items-center justify-center animate-heart-beat" style={{ boxShadow: "var(--shadow-glow-mint)" }}>
-            <ThumbsUp className="w-7 h-7 text-white" />
+      <Card className="p-6 border-border/50 bg-gradient-to-br from-mint/5 to-primary/5 animate-fade-in">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-mint to-primary flex items-center justify-center">
+            <ThumbsUp className="w-5 h-5 text-white" />
           </div>
           <div>
-            <p className="font-bold text-foreground text-lg">Thanks for your feedback!</p>
-            <p className="text-base text-muted-foreground">Your input helps me create better plans.</p>
+            <p className="font-semibold text-foreground">Thanks for your feedback!</p>
+            <p className="text-sm text-muted-foreground">Your input helps me create better plans.</p>
           </div>
         </div>
       </Card>
@@ -46,36 +46,36 @@ const PlanRatingCard = () => {
   }
 
   return (
-    <Card className="p-8 border-border/50 hover:border-coral/30 transition-all duration-300 hover-lift group" style={{ boxShadow: "var(--shadow-card)" }}>
-      <div className="flex items-start gap-5 mb-6">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-energy flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform" style={{ boxShadow: "var(--shadow-glow-coral)" }}>
-          <MessageSquare className="w-7 h-7 text-white" />
+    <Card className="p-6 border-border/50 hover:border-mint/30 transition-all duration-300 group" style={{ boxShadow: "var(--shadow-card)" }}>
+      <div className="flex items-start gap-4 mb-4">
+        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-coral to-secondary flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+          <MessageSquare className="w-6 h-6 text-white" />
         </div>
         <div className="flex-1">
-          <h3 className="text-xl font-bold text-foreground mb-2">Quick Check-In</h3>
-          <p className="text-base text-muted-foreground">
+          <h3 className="text-lg font-bold text-foreground mb-1">Quick Check-In</h3>
+          <p className="text-sm text-muted-foreground">
             Did today's plan fit your goals and energy level?
           </p>
         </div>
       </div>
 
-      <div className="flex justify-center gap-3 mt-6">
+      <div className="flex justify-center gap-2 mt-4">
         {[1, 2, 3, 4, 5].map((value) => (
           <Button
             key={value}
             variant={rating === value ? "default" : "outline"}
             size="lg"
             onClick={() => handleRate(value)}
-            className="w-14 h-14 p-0 hover:scale-110 hover-lift transition-all"
+            className="w-12 h-12 p-0 hover:scale-110 transition-all"
           >
             <Star 
-              className={`w-6 h-6 ${rating && rating >= value ? 'fill-current' : ''}`}
+              className={`w-5 h-5 ${rating && rating >= value ? 'fill-current' : ''}`}
             />
           </Button>
         ))}
       </div>
 
-      <div className="flex justify-between text-sm text-muted-foreground mt-4 px-2">
+      <div className="flex justify-between text-xs text-muted-foreground mt-2 px-1">
         <span>Not aligned</span>
         <span>Perfect fit</span>
       </div>
