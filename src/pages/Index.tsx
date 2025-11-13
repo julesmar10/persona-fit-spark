@@ -11,6 +11,10 @@ import SmartScheduling from "@/components/SmartScheduling";
 import WeeklyInsights from "@/components/WeeklyInsights";
 import NextWeekPreview from "@/components/NextWeekPreview";
 import SkipWorkoutHandler from "@/components/SkipWorkoutHandler";
+import ConsentModal from "@/components/ConsentModal";
+import PlanRatingCard from "@/components/PlanRatingCard";
+import EvaluationSummary from "@/components/EvaluationSummary";
+import { DailyPlanSkeleton, DashboardSkeleton } from "@/components/LoadingState";
 
 type AppState = "onboarding" | "summary" | "dashboard";
 
@@ -19,6 +23,8 @@ const Index = () => {
   const [onboardingData, setOnboardingData] = useState<OnboardingData | null>(null);
   const [userName] = useState("Alex");
   const [showSkipHandler, setShowSkipHandler] = useState(false);
+  const [showConsentModal, setShowConsentModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleOnboardingComplete = (data: OnboardingData) => {
     setOnboardingData(data);
@@ -26,7 +32,14 @@ const Index = () => {
   };
 
   const handleStartJourney = () => {
-    setAppState("dashboard");
+    setIsLoading(true);
+    // Simulate loading time (< 2 seconds as per requirements)
+    setTimeout(() => {
+      setIsLoading(false);
+      setAppState("dashboard");
+      // Show consent modal after 3 seconds on dashboard
+      setTimeout(() => setShowConsentModal(true), 3000);
+    }, 1800);
   };
 
   // Onboarding Flow
@@ -34,8 +47,17 @@ const Index = () => {
     return <OnboardingFlow onComplete={handleOnboardingComplete} />;
   }
 
-  // AI Summary Card
+  // AI Summary Card with Loading
   if (appState === "summary" && onboardingData) {
+    if (isLoading) {
+      return (
+        <div className="min-h-screen bg-background flex items-center justify-center">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <DashboardSkeleton />
+          </div>
+        </div>
+      );
+    }
     return <AISummaryCard onboardingData={onboardingData} onStart={handleStartJourney} />;
   }
 
@@ -54,28 +76,40 @@ const Index = () => {
           {/* Progress Overview */}
           <ProgressOverview />
 
-          {/* Smart Scheduling */}
-          <SmartScheduling />
-
           {/* Daily Plan Section */}
-          <DailyPlan />
+          {isLoading ? <DailyPlanSkeleton /> : <DailyPlan />}
 
-          {/* Progress Dashboard */}
-          <ProgressDashboard />
-
-          {/* Weekly Insights */}
-          <WeeklyInsights />
-
-          {/* Skip Workout Handler (conditional) */}
-          {showSkipHandler && <SkipWorkoutHandler onClose={() => setShowSkipHandler(false)} />}
+          {/* Plan Rating */}
+          <PlanRatingCard />
 
           {/* AI Companion Section */}
           <AICompanion />
 
+          {/* Progress Dashboard */}
+          <ProgressDashboard />
+
+          {/* Smart Scheduling */}
+          <SmartScheduling />
+
+          {/* Weekly Insights */}
+          <WeeklyInsights />
+
           {/* Next Week Preview */}
           <NextWeekPreview />
+
+          {/* Evaluation Summary */}
+          <EvaluationSummary />
+
+          {/* Skip Workout Handler (conditional) */}
+          {showSkipHandler && <SkipWorkoutHandler onClose={() => setShowSkipHandler(false)} />}
         </div>
       </main>
+
+      {/* Consent Modal */}
+      <ConsentModal 
+        open={showConsentModal} 
+        onComplete={() => setShowConsentModal(false)} 
+      />
     </div>
   );
 };

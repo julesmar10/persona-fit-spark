@@ -43,24 +43,42 @@ const AICompanion = () => {
     setMessages([...messages, newMessage]);
     setInputValue("");
 
-    // Simulate AI response
+    // Emotionally intelligent AI responses based on context
+    const contextualResponses: Record<string, string> = {
+      "tired": "Rest is progress too — take it easy today. 💙 I've added a gentle recovery session tomorrow.",
+      "low energy": "I hear you. Let's shift today's plan to something lighter. Your body needs this break. 🧘",
+      "skip": "No problem! Recovery day activated. Tomorrow's plan will maintain your momentum without overload. ✨",
+      "hard": "You're pushing through — that's real strength. 💪 Tomorrow will be more balanced. Keep going!",
+      "easy": "Perfect! I'm adding a bonus challenge tomorrow since you're feeling strong. Let's build on this! 🔥",
+      "motivated": "Love this energy! ⚡ I'm optimizing your plan to match this momentum. You're unstoppable!",
+      "energized": "Perfect! 💪 I've analyzed your energy levels and optimized tomorrow's workout. You're building incredible momentum!",
+      "rest": "Rest is crucial for progress. 💙 I've scheduled a recovery day for tomorrow to help your muscles rebuild stronger.",
+      "ready": "That's the spirit! 🚀 Based on your excellent progress, I'm adding a bonus challenge to push your limits safely.",
+      "need": "I hear you. 🧘 I've adjusted your evening session to be more restorative with gentle stretching and breathing exercises.",
+    };
+
+    let aiResponseText = "That sounds great! I've adjusted tomorrow's workout to build on today's momentum. 💪";
+    
+    // Check for contextual keywords
+    const lowerText = text.toLowerCase();
+    for (const [keyword, response] of Object.entries(contextualResponses)) {
+      if (lowerText.includes(keyword)) {
+        aiResponseText = response;
+        break;
+      }
+    }
+    
+    // Simulate quick AI response (< 1 second for perceived responsiveness)
     setTimeout(() => {
-      const aiResponses = [
-        "Perfect! 💪 I've analyzed your energy levels and optimized tomorrow's workout. You're building incredible momentum!",
-        "I hear you. 🧘 I've adjusted your evening session to be more restorative with gentle stretching and breathing exercises.",
-        "That's the spirit! 🚀 Based on your excellent progress, I'm adding a bonus challenge to push your limits safely.",
-        "Rest is crucial for progress. 💙 I've scheduled a recovery day for tomorrow to help your muscles rebuild stronger.",
-      ];
-      
       const aiMessage: Message = {
         id: messages.length + 2,
-        text: aiResponses[Math.floor(Math.random() * aiResponses.length)],
+        text: aiResponseText,
         sender: "ai",
         timestamp: new Date(),
       };
       
       setMessages((prev) => [...prev, aiMessage]);
-    }, 1000);
+    }, 800);
   };
 
   return (
