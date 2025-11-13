@@ -80,8 +80,9 @@ const Index = () => {
           {/* Hero Progress Section */}
           <section className="relative overflow-hidden rounded-3xl bg-gradient-hero p-8 md:p-12 animate-fade-in" style={{ boxShadow: "var(--shadow-hover)" }}>
             <div className="absolute inset-0 bg-background/5 backdrop-blur-[1px]" />
-            <div className="relative z-10 grid md:grid-cols-2 gap-8 items-center">
-              <div className="space-y-6">
+            <div className="relative z-10 space-y-8">
+              {/* Header */}
+              <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div className="space-y-3">
                   <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-background/20 backdrop-blur-md border border-background/30">
                     <div className="w-2 h-2 rounded-full bg-coral animate-pulse" />
@@ -94,55 +95,103 @@ const Index = () => {
                     4 of 5 workouts completed this week. Keep the momentum going!
                   </p>
                 </div>
-                
-                {/* Quick Action Chips */}
-                <div className="flex flex-wrap gap-3">
-                  {[
-                    { label: "Warm-up", icon: "🔥", color: "from-coral to-secondary" },
-                    { label: "Strength", icon: "💪", color: "from-mint to-primary" },
-                    { label: "Cardio", icon: "⚡", color: "from-secondary to-coral" },
-                    { label: "Recovery", icon: "🧘", color: "from-lavender to-accent" },
-                  ].map((chip) => (
-                    <button
-                      key={chip.label}
-                      className={`group px-5 py-2.5 rounded-full bg-gradient-to-r ${chip.color} text-white font-semibold text-sm hover-lift transition-all duration-300 hover:scale-105 flex items-center gap-2`}
-                      style={{ boxShadow: "var(--shadow-soft)" }}
-                    >
-                      <span>{chip.icon}</span>
-                      <span>{chip.label}</span>
-                    </button>
-                  ))}
+
+                {/* Hero Progress Ring */}
+                <div className="flex justify-center">
+                  <div className="relative">
+                    <svg className="transform -rotate-90 w-48 h-48 md:w-56 md:h-56">
+                      <circle
+                        cx="112"
+                        cy="112"
+                        r="100"
+                        stroke="rgba(255,255,255,0.2)"
+                        strokeWidth="12"
+                        fill="none"
+                      />
+                      <circle
+                        cx="112"
+                        cy="112"
+                        r="100"
+                        stroke="white"
+                        strokeWidth="12"
+                        fill="none"
+                        strokeDasharray={`${(4/5) * 2 * Math.PI * 100} ${2 * Math.PI * 100}`}
+                        strokeLinecap="round"
+                        className="animate-glow"
+                        style={{ filter: "drop-shadow(0 0 8px rgba(255,255,255,0.5))" }}
+                      />
+                    </svg>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <p className="text-5xl md:text-6xl font-bold text-white">80%</p>
+                      <p className="text-sm text-white/90 mt-2">Weekly Goal</p>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Hero Progress Ring */}
-              <div className="flex justify-center">
-                <div className="relative">
-                  <svg className="transform -rotate-90 w-48 h-48 md:w-56 md:h-56">
-                    <circle
-                      cx="112"
-                      cy="112"
-                      r="100"
-                      stroke="rgba(255,255,255,0.2)"
-                      strokeWidth="12"
-                      fill="none"
-                    />
-                    <circle
-                      cx="112"
-                      cy="112"
-                      r="100"
-                      stroke="white"
-                      strokeWidth="12"
-                      fill="none"
-                      strokeDasharray={`${(4/5) * 2 * Math.PI * 100} ${2 * Math.PI * 100}`}
-                      strokeLinecap="round"
-                      className="animate-glow"
-                      style={{ filter: "drop-shadow(0 0 8px rgba(255,255,255,0.5))" }}
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <p className="text-5xl md:text-6xl font-bold text-white">80%</p>
-                    <p className="text-sm text-white/90 mt-2">Weekly Goal</p>
+              {/* Progress Snapshot & Weekly Insights */}
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-background/10 backdrop-blur-md rounded-2xl p-6 border border-background/20">
+                  <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    📊 Progress Snapshot
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-white/90 text-sm">
+                        <span>Weekly Completion</span>
+                        <span className="font-bold">80%</span>
+                      </div>
+                      <div className="h-2 bg-background/20 rounded-full overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-mint to-primary rounded-full animate-shimmer" style={{ width: "80%" }} />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-white/90 text-sm">
+                        <span>Current Streak</span>
+                        <span className="font-bold">12 Days 🔥</span>
+                      </div>
+                      <div className="h-2 bg-background/20 rounded-full overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-coral to-secondary rounded-full" style={{ width: "85%" }} />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-white/90 text-sm">
+                        <span>Total Workouts</span>
+                        <span className="font-bold">47 Sessions</span>
+                      </div>
+                      <div className="h-2 bg-background/20 rounded-full overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-lavender to-accent rounded-full" style={{ width: "70%" }} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-background/10 backdrop-blur-md rounded-2xl p-6 border border-background/20">
+                  <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    💡 This Week's Insights
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <span className="text-2xl">🎯</span>
+                      <div>
+                        <p className="text-white/90 text-sm font-semibold">Strong Start</p>
+                        <p className="text-white/70 text-xs">You're 20% ahead of last week's pace</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="text-2xl">💪</span>
+                      <div>
+                        <p className="text-white/90 text-sm font-semibold">Strength Gains</p>
+                        <p className="text-white/70 text-xs">15% increase in weights this week</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <span className="text-2xl">⚡</span>
+                      <div>
+                        <p className="text-white/90 text-sm font-semibold">Peak Performance</p>
+                        <p className="text-white/70 text-xs">Best workout time: 7-9 AM</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -157,9 +206,6 @@ const Index = () => {
 
           {/* Quick Stats */}
           <QuickStats />
-
-          {/* Progress Overview */}
-          <ProgressOverview />
 
           {/* Today's Featured Workout */}
           <TodayWorkoutHighlight />
@@ -181,9 +227,6 @@ const Index = () => {
 
           {/* Smart Scheduling */}
           <SmartScheduling />
-
-          {/* Weekly Insights */}
-          <WeeklyInsights />
 
           {/* Next Week Preview */}
           <NextWeekPreview />
