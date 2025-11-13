@@ -9,16 +9,17 @@ const AchievementBanner = () => {
   if (!isVisible) return null;
 
   return (
-    <Card className="relative overflow-hidden border-accent/50 bg-gradient-to-r from-accent/10 to-accent/5 animate-fade-in">
-      <div className="p-6 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center animate-pulse-glow">
-            <Award className="w-6 h-6 text-accent-foreground" />
+    <Card className="relative overflow-hidden border-coral/30 bg-gradient-celebration animate-fade-in" style={{ boxShadow: "var(--shadow-glow-coral)" }}>
+      <div className="absolute inset-0 bg-background/95 backdrop-blur-sm"></div>
+      <div className="relative p-8 flex items-center justify-between gap-6">
+        <div className="flex items-center gap-6">
+          <div className="w-16 h-16 rounded-2xl bg-coral flex items-center justify-center animate-heart-beat" style={{ boxShadow: "var(--shadow-glow-coral)" }}>
+            <Award className="w-8 h-8 text-white" />
           </div>
           <div>
-            <h3 className="font-semibold text-foreground text-lg">New Achievement Unlocked!</h3>
-            <p className="text-sm text-muted-foreground mt-1">
-              12-Day Consistency Streak - You're on fire! 🔥
+            <h3 className="font-bold text-foreground text-xl mb-1">New Achievement Unlocked!</h3>
+            <p className="text-base text-muted-foreground leading-relaxed">
+              12-Day Consistency Streak - You're absolutely crushing it! 🔥
             </p>
           </div>
         </div>
@@ -26,9 +27,9 @@ const AchievementBanner = () => {
           variant="ghost"
           size="icon"
           onClick={() => setIsVisible(false)}
-          className="shrink-0"
+          className="shrink-0 hover:bg-background/50"
         >
-          <X className="w-4 h-4" />
+          <X className="w-5 h-5" />
         </Button>
       </div>
     </Card>

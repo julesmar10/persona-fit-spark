@@ -72,9 +72,9 @@ const DailyPlan = () => {
 
   const getTypeColor = (type: ActivityType) => {
     switch (type) {
-      case "workout": return "text-secondary";
-      case "nutrition": return "text-accent";
-      case "recovery": return "text-primary";
+      case "workout": return "bg-gradient-to-br from-mint to-primary";
+      case "nutrition": return "bg-gradient-to-br from-coral to-secondary";
+      case "recovery": return "bg-gradient-to-br from-lavender to-accent";
     }
   };
 
@@ -152,9 +152,12 @@ const DailyPlan = () => {
           return (
             <Card
               key={activity.id}
-              className={`p-6 border-border/50 hover:border-primary/50 transition-all duration-300 group relative overflow-hidden ${
-                activity.completed ? "opacity-75" : "hover:shadow-card hover:scale-[1.02]"
+              className={`p-8 border-border/50 transition-all duration-300 group relative overflow-hidden ${
+                activity.completed ? "opacity-70" : "hover:animate-lift hover:border-mint/50"
               }`}
+              style={{ 
+                boxShadow: activity.completed ? "var(--shadow-soft)" : "var(--shadow-card)"
+              }}
             >
               {activity.completed && (
                 <div className="absolute top-4 right-4">
@@ -162,16 +165,23 @@ const DailyPlan = () => {
                 </div>
               )}
 
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <div className={`w-10 h-10 rounded-lg bg-gradient-card flex items-center justify-center shrink-0 ${getTypeColor(activity.type)}`}>
-                    <TypeIcon className="w-5 h-5" />
+              <div className="space-y-5">
+                <div className="flex items-start gap-5">
+                  <div 
+                    className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110 ${getTypeColor(activity.type)}`}
+                    style={{ 
+                      boxShadow: activity.type === 'workout' ? 'var(--shadow-glow-mint)' : 
+                                 activity.type === 'nutrition' ? 'var(--shadow-glow-coral)' : 
+                                 'var(--shadow-soft)' 
+                    }}
+                  >
+                    <TypeIcon className="w-7 h-7 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
+                    <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-mint transition-colors">
                       {activity.title}
                     </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                    <p className="text-base text-muted-foreground leading-relaxed">
                       {activity.description}
                     </p>
                   </div>
@@ -193,9 +203,9 @@ const DailyPlan = () => {
                 </div>
 
                 {activity.completed && activity.type === "workout" && (
-                  <div className="pt-2 border-t border-border/50">
-                    <p className="text-xs text-muted-foreground mb-2">How did it feel?</p>
-                    <div className="flex gap-2">
+                  <div className="pt-4 border-t border-border/30">
+                    <p className="text-sm font-medium text-muted-foreground mb-3">How did it feel?</p>
+                    <div className="flex gap-3">
                       {[
                         { type: "loved" as FeedbackType, icon: Heart, label: "Loved it!" },
                         { type: "okay" as FeedbackType, icon: ThumbsUp, label: "It was okay" },
@@ -206,9 +216,9 @@ const DailyPlan = () => {
                           variant={activity.feedback === feedbackOption.type ? "default" : "outline"}
                           size="sm"
                           onClick={() => handleFeedback(activity.id, feedbackOption.type)}
-                          className="gap-1.5 text-xs flex-1"
+                          className={`gap-2 text-sm flex-1 ${activity.feedback === feedbackOption.type ? 'animate-heart-beat' : ''}`}
                         >
-                          <feedbackOption.icon className="w-3 h-3" />
+                          <feedbackOption.icon className="w-4 h-4" />
                           <span className="hidden sm:inline">{feedbackOption.label}</span>
                         </Button>
                       ))}

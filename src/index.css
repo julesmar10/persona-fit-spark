@@ -8,48 +8,64 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
-    --foreground: 222 20% 15%;
+    --background: 0 0% 100%;
+    --foreground: 240 8% 20%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 20% 15%;
+    --card-foreground: 240 8% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 20% 15%;
+    --popover-foreground: 240 8% 20%;
 
-    --primary: 195 85% 45%;
+    /* Premium color palette: mint, coral, lavender */
+    --primary: 160 60% 50%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 15 85% 62%;
+    --secondary: 15 85% 65%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 15% 95%;
-    --muted-foreground: 222 15% 50%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
 
-    --accent: 145 65% 50%;
+    --accent: 260 50% 70%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 20% 90%;
-    --input: 210 20% 90%;
-    --ring: 195 85% 45%;
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 160 60% 50%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
 
-    /* Custom fitness theme tokens */
-    --gradient-hero: linear-gradient(135deg, hsl(195 85% 45%), hsl(180 70% 55%));
-    --gradient-card: linear-gradient(145deg, hsl(195 85% 45% / 0.05), hsl(180 70% 55% / 0.1));
-    --gradient-energy: linear-gradient(90deg, hsl(15 85% 62%), hsl(30 90% 60%));
-    --gradient-progress: linear-gradient(90deg, hsl(145 65% 50%), hsl(165 60% 55%));
+    /* Premium color variants */
+    --mint: 160 60% 50%;
+    --mint-light: 160 60% 95%;
+    --coral: 15 85% 65%;
+    --coral-light: 15 85% 95%;
+    --lavender: 260 50% 70%;
+    --lavender-light: 260 50% 95%;
+
+    /* Premium gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(160 60% 50%), hsl(180 65% 55%));
+    --gradient-card: linear-gradient(145deg, hsl(160 60% 50% / 0.03), hsl(180 65% 55% / 0.06));
+    --gradient-energy: linear-gradient(90deg, hsl(15 85% 65%), hsl(25 85% 60%));
+    --gradient-calm: linear-gradient(135deg, hsl(260 50% 70%), hsl(240 60% 75%));
+    --gradient-progress: linear-gradient(90deg, hsl(160 60% 50%), hsl(180 65% 55%));
+    --gradient-celebration: linear-gradient(135deg, hsl(15 85% 65%), hsl(45 95% 60%), hsl(160 60% 50%));
     
-    --shadow-soft: 0 2px 20px -5px hsl(195 85% 45% / 0.15);
-    --shadow-card: 0 4px 30px -8px hsl(195 85% 45% / 0.2);
-    --shadow-glow: 0 0 40px hsl(195 85% 45% / 0.25);
+    /* Premium shadows */
+    --shadow-soft: 0 2px 24px -6px hsl(240 8% 20% / 0.08);
+    --shadow-card: 0 4px 32px -8px hsl(240 8% 20% / 0.12);
+    --shadow-hover: 0 8px 40px -10px hsl(160 60% 50% / 0.25);
+    --shadow-glow-mint: 0 0 40px hsl(160 60% 50% / 0.3);
+    --shadow-glow-coral: 0 0 40px hsl(15 85% 65% / 0.3);
     
+    /* Premium transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-lift: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
 
@@ -69,42 +85,54 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222 25% 10%;
-    --foreground: 210 20% 95%;
+    --background: 240 10% 8%;
+    --foreground: 240 5% 96%;
 
-    --card: 222 22% 13%;
-    --card-foreground: 210 20% 95%;
+    --card: 240 8% 12%;
+    --card-foreground: 240 5% 96%;
 
-    --popover: 222 22% 13%;
-    --popover-foreground: 210 20% 95%;
+    --popover: 240 8% 12%;
+    --popover-foreground: 240 5% 96%;
 
-    --primary: 195 85% 55%;
-    --primary-foreground: 222 25% 10%;
+    --primary: 160 60% 55%;
+    --primary-foreground: 240 10% 8%;
 
     --secondary: 15 85% 65%;
-    --secondary-foreground: 222 25% 10%;
+    --secondary-foreground: 240 10% 8%;
 
-    --muted: 222 20% 20%;
-    --muted-foreground: 210 15% 60%;
+    --muted: 240 6% 18%;
+    --muted-foreground: 240 5% 65%;
 
-    --accent: 145 65% 55%;
-    --accent-foreground: 222 25% 10%;
+    --accent: 260 50% 65%;
+    --accent-foreground: 240 10% 8%;
 
     --destructive: 0 72% 55%;
-    --destructive-foreground: 210 20% 95%;
+    --destructive-foreground: 240 5% 96%;
 
-    --border: 222 20% 22%;
-    --input: 222 20% 22%;
-    --ring: 195 85% 55%;
+    --border: 240 6% 20%;
+    --input: 240 6% 20%;
+    --ring: 160 60% 55%;
 
-    --gradient-hero: linear-gradient(135deg, hsl(195 85% 45%), hsl(180 70% 50%));
-    --gradient-card: linear-gradient(145deg, hsl(195 85% 45% / 0.1), hsl(180 70% 55% / 0.15));
-    --gradient-energy: linear-gradient(90deg, hsl(15 85% 62%), hsl(30 90% 60%));
-    --gradient-progress: linear-gradient(90deg, hsl(145 65% 50%), hsl(165 60% 55%));
+    /* Dark mode premium colors */
+    --mint: 160 60% 55%;
+    --mint-light: 160 60% 15%;
+    --coral: 15 85% 65%;
+    --coral-light: 15 85% 15%;
+    --lavender: 260 50% 65%;
+    --lavender-light: 260 50% 15%;
+
+    --gradient-hero: linear-gradient(135deg, hsl(160 60% 45%), hsl(180 65% 50%));
+    --gradient-card: linear-gradient(145deg, hsl(160 60% 50% / 0.08), hsl(180 65% 55% / 0.12));
+    --gradient-energy: linear-gradient(90deg, hsl(15 85% 65%), hsl(25 85% 60%));
+    --gradient-calm: linear-gradient(135deg, hsl(260 50% 65%), hsl(240 60% 70%));
+    --gradient-progress: linear-gradient(90deg, hsl(160 60% 50%), hsl(180 65% 55%));
+    --gradient-celebration: linear-gradient(135deg, hsl(15 85% 65%), hsl(45 95% 60%), hsl(160 60% 50%));
     
-    --shadow-soft: 0 2px 20px -5px hsl(195 85% 45% / 0.25);
-    --shadow-card: 0 4px 30px -8px hsl(195 85% 45% / 0.3);
-    --shadow-glow: 0 0 40px hsl(195 85% 45% / 0.35);
+    --shadow-soft: 0 2px 24px -6px hsl(0 0% 0% / 0.4);
+    --shadow-card: 0 4px 32px -8px hsl(0 0% 0% / 0.5);
+    --shadow-hover: 0 8px 40px -10px hsl(160 60% 50% / 0.4);
+    --shadow-glow-mint: 0 0 40px hsl(160 60% 50% / 0.4);
+    --shadow-glow-coral: 0 0 40px hsl(15 85% 65% / 0.4);
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -122,6 +150,24 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    letter-spacing: -0.01em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+    letter-spacing: -0.02em;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Premium selection */
+  ::selection {
+    background: hsl(var(--mint) / 0.3);
+    color: hsl(var(--foreground));
   }
 }
