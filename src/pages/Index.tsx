@@ -17,9 +17,9 @@ import EvaluationSummary from "@/components/EvaluationSummary";
 import VisualShowcase from "@/components/VisualShowcase";
 import TodayWorkoutHighlight from "@/components/TodayWorkoutHighlight";
 import WorkoutGrid from "@/components/WorkoutGrid";
-import FitnessPersonas from "@/components/FitnessPersonas";
 import MotivationalQuote from "@/components/MotivationalQuote";
 import QuickStats from "@/components/QuickStats";
+import UserProfile from "@/components/UserProfile";
 import { DailyPlanSkeleton, DashboardSkeleton } from "@/components/LoadingState";
 
 type AppState = "onboarding" | "summary" | "dashboard";
@@ -30,6 +30,7 @@ const Index = () => {
   const [userName] = useState("Alex");
   const [showSkipHandler, setShowSkipHandler] = useState(false);
   const [showConsentModal, setShowConsentModal] = useState(false);
+  const [showUserProfile, setShowUserProfile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleOnboardingComplete = (data: OnboardingData) => {
@@ -71,7 +72,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <DashboardHeader userName={userName} />
+      <DashboardHeader userName={userName} onProfileClick={() => setShowUserProfile(true)} />
 
       {/* Main Content */}
       <main className="container mx-auto px-6 py-8 max-w-7xl">
@@ -190,9 +191,6 @@ const Index = () => {
           {/* Visual Journey Showcase */}
           <VisualShowcase />
 
-          {/* Fitness Personas */}
-          <FitnessPersonas />
-
           {/* Evaluation Summary */}
           <EvaluationSummary />
 
@@ -212,6 +210,13 @@ const Index = () => {
       <ConsentModal 
         open={showConsentModal} 
         onComplete={() => setShowConsentModal(false)} 
+      />
+
+      {/* User Profile Modal */}
+      <UserProfile
+        open={showUserProfile}
+        onOpenChange={setShowUserProfile}
+        userName={userName}
       />
     </div>
   );

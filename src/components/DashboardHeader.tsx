@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 
 interface DashboardHeaderProps {
   userName: string;
+  onProfileClick: () => void;
 }
 
-const DashboardHeader = ({ userName }: DashboardHeaderProps) => {
+const DashboardHeader = ({ userName, onProfileClick }: DashboardHeaderProps) => {
   return (
     <header className="border-b border-border/30 bg-background/95 backdrop-blur-xl sticky top-0 z-50" style={{ boxShadow: "0 4px 24px -4px rgba(0,0,0,0.06)" }}>
       <div className="container mx-auto px-6 py-6 flex items-center justify-between max-w-7xl">
@@ -30,7 +31,12 @@ const DashboardHeader = ({ userName }: DashboardHeaderProps) => {
             <span className="text-sm font-semibold text-foreground">12-day streak</span>
             <span className="text-lg">🔥</span>
           </div>
-          <Button variant="outline" size="sm" className="gap-2 hover:scale-105 h-10 px-4 rounded-xl">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="gap-2 hover:scale-105 h-10 px-4 rounded-xl"
+            onClick={onProfileClick}
+          >
             <User className="w-4 h-4" />
             <span className="hidden sm:inline font-semibold">{userName}</span>
           </Button>
