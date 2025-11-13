@@ -49,7 +49,7 @@ const ProgressOverview = () => {
       {stats.map((stat, index) => (
       <Card
         key={index}
-        className={`p-8 border-border/50 hover:border-mint/50 transition-all duration-300 group relative ${
+        className={`p-8 border-border/50 hover:border-mint/50 transition-all duration-300 group relative overflow-hidden ${
           stat.isStreak && streakFlare ? "streak-flare" : ""
         }`}
         style={{ 
@@ -58,10 +58,14 @@ const ProgressOverview = () => {
         }}
         onClick={stat.isStreak ? handleStreakClick : undefined}
       >
+        {/* Animated background gradient */}
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+          <div className="absolute inset-0 bg-gradient-to-br from-mint/5 to-primary/10" />
+        </div>
         <Button
           variant="ghost"
           size="icon"
-          className={`absolute top-3 right-3 h-8 w-8 ${
+          className={`absolute top-3 right-3 h-8 w-8 z-10 ${
             savedStats.has(index) ? "save-pulse" : ""
           }`}
           onClick={(e) => handleSave(index, e)}
@@ -75,12 +79,15 @@ const ProgressOverview = () => {
           />
         </Button>
 
-        <div className="flex items-start justify-between mb-5">
+        <div className="relative flex items-start justify-between mb-5">
           <div className="flex items-center gap-4">
-            <div className={`w-12 h-12 rounded-2xl bg-gradient-card flex items-center justify-center group-hover:scale-110 transition-transform ${
+            <div className={`w-12 h-12 rounded-2xl bg-gradient-card flex items-center justify-center group-hover:scale-110 transition-transform relative ${
               stat.isStreak ? "cursor-pointer" : ""
             }`} style={{ boxShadow: "var(--shadow-soft)" }}>
               <stat.icon className={`w-6 h-6 ${stat.color}`} />
+              {stat.isStreak && (
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-coral rounded-full animate-pulse" />
+              )}
             </div>
             <div>
               <p className="text-sm text-muted-foreground font-medium">{stat.label}</p>
@@ -88,7 +95,13 @@ const ProgressOverview = () => {
             </div>
           </div>
         </div>
-        <Progress value={stat.progress} className="h-2" />
+        <div className="relative">
+          <Progress value={stat.progress} className="h-2" />
+          <div 
+            className="absolute top-0 left-0 h-2 bg-gradient-to-r from-primary/20 to-transparent rounded-full animate-shimmer"
+            style={{ width: `${stat.progress}%` }}
+          />
+        </div>
       </Card>
       ))}
     </div>

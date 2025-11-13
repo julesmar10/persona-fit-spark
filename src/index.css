@@ -237,6 +237,27 @@ All colors MUST be HSL.
     box-shadow: 0 0 20px hsl(var(--primary) / 0.4);
   }
 
+  /* Shimmer effect for progress bars */
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--primary) / 0.3) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+
   /* Adaptive tone classes */
   .motivation-bright {
     @apply brightness-110 saturate-110;
