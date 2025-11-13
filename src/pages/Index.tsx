@@ -18,6 +18,8 @@ import VisualShowcase from "@/components/VisualShowcase";
 import TodayWorkoutHighlight from "@/components/TodayWorkoutHighlight";
 import WorkoutGrid from "@/components/WorkoutGrid";
 import FitnessPersonas from "@/components/FitnessPersonas";
+import MotivationalQuote from "@/components/MotivationalQuote";
+import QuickStats from "@/components/QuickStats";
 import { DailyPlanSkeleton, DashboardSkeleton } from "@/components/LoadingState";
 
 type AppState = "onboarding" | "summary" | "dashboard";
@@ -148,6 +150,12 @@ const Index = () => {
 
           {/* Achievement Banner */}
           <AchievementBanner />
+
+          {/* Motivational Quote */}
+          <MotivationalQuote />
+
+          {/* Quick Stats */}
+          <QuickStats />
 
           {/* Progress Overview */}
           <ProgressOverview />

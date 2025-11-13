@@ -45,8 +45,16 @@ const ProgressOverview = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in">
-      {stats.map((stat, index) => (
+    <section className="animate-fade-in" style={{ animationDelay: "0.15s" }}>
+      <div className="mb-8">
+        <h2 className="text-3xl font-bold text-foreground">Your Progress Snapshot</h2>
+        <p className="text-base text-muted-foreground mt-2">
+          Real-time insights into your fitness journey
+        </p>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {stats.map((stat, index) => (
       <Card
         key={index}
         className={`p-8 border-border/50 hover:border-mint/50 transition-all duration-300 group relative overflow-hidden ${
@@ -103,8 +111,9 @@ const ProgressOverview = () => {
           />
         </div>
       </Card>
-      ))}
-    </div>
+        ))}
+      </div>
+    </section>
   );
 };
 
