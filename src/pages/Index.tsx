@@ -14,6 +14,7 @@ import SkipWorkoutHandler from "@/components/SkipWorkoutHandler";
 import ConsentModal from "@/components/ConsentModal";
 import PlanRatingCard from "@/components/PlanRatingCard";
 import EvaluationSummary from "@/components/EvaluationSummary";
+import VisualShowcase from "@/components/VisualShowcase";
 import { DailyPlanSkeleton, DashboardSkeleton } from "@/components/LoadingState";
 
 type AppState = "onboarding" | "summary" | "dashboard";
@@ -68,8 +69,8 @@ const Index = () => {
       <DashboardHeader userName={userName} />
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="space-y-8">
+      <main className="container mx-auto px-6 py-12 max-w-7xl">
+        <div className="space-y-12">
           {/* Achievement Banner */}
           <AchievementBanner />
 
@@ -97,11 +98,21 @@ const Index = () => {
           {/* Next Week Preview */}
           <NextWeekPreview />
 
+          {/* Visual Journey Showcase */}
+          <VisualShowcase />
+
           {/* Evaluation Summary */}
           <EvaluationSummary />
 
           {/* Skip Workout Handler (conditional) */}
           {showSkipHandler && <SkipWorkoutHandler onClose={() => setShowSkipHandler(false)} />}
+        </div>
+
+        {/* Footer Spacing */}
+        <div className="py-12 text-center text-muted-foreground">
+          <p className="text-sm">
+            Your journey to better health, powered by AI that adapts to you
+          </p>
         </div>
       </main>
 
