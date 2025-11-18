@@ -20,6 +20,7 @@ import WorkoutGrid from "@/components/WorkoutGrid";
 import MotivationalQuote from "@/components/MotivationalQuote";
 import QuickStats from "@/components/QuickStats";
 import UserProfile from "@/components/UserProfile";
+import WeeklyProgressBar from "@/components/WeeklyProgressBar";
 import { DailyPlanSkeleton, DashboardSkeleton } from "@/components/LoadingState";
 
 type AppState = "onboarding" | "summary" | "dashboard";
@@ -131,6 +132,11 @@ const Index = () => {
 
           {/* Motivational Quote */}
           <MotivationalQuote />
+
+          {/* Weekly Progress Bar */}
+          <section className="rounded-3xl bg-card p-8 animate-fade-in" style={{ boxShadow: "var(--shadow-soft)" }}>
+            <WeeklyProgressBar />
+          </section>
 
           {/* Quick Stats */}
           <QuickStats />
