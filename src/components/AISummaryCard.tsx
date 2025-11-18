@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Calendar, Target, TrendingUp } from "lucide-react";
 import { OnboardingData } from "./OnboardingFlow";
+import logo from "@/assets/fitai-logo.png";
 
 interface AISummaryCardProps {
   onboardingData: OnboardingData;
@@ -35,9 +36,12 @@ const AISummaryCard = ({ onboardingData, onStart }: AISummaryCardProps) => {
     <div className="min-h-screen bg-background flex items-center justify-center p-6">
       <Card className="w-full max-w-3xl p-10 border-border/50 hover-lift glow-on-hover animate-fade-in" style={{ boxShadow: "var(--shadow-card)" }}>
         <div className="text-center space-y-8">
-          {/* AI Icon */}
-          <div className="w-24 h-24 rounded-3xl bg-gradient-hero flex items-center justify-center mx-auto animate-glow" style={{ boxShadow: "var(--shadow-glow-mint)" }}>
-            <Sparkles className="w-12 h-12 text-primary-foreground" />
+          {/* Logo */}
+          <div className="relative group inline-block mx-auto">
+            <div className="absolute inset-0 bg-gradient-hero rounded-3xl blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
+            <div className="relative w-24 h-24 rounded-3xl bg-gradient-hero flex items-center justify-center p-5 animate-glow" style={{ boxShadow: "var(--shadow-glow-mint)" }}>
+              <img src={logo} alt="FitAI Coach Logo" className="w-full h-full object-contain" />
+            </div>
           </div>
 
           {/* Title */}
