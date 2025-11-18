@@ -72,13 +72,26 @@ Include a mix of workout, nutrition, and recovery activities. Be specific and ac
 
     console.log('Generated workout text:', generatedText);
 
-    // Parse the JSON from the response
-    const jsonMatch = generatedText.match(/\[[\s\S]*\]/);
-    if (!jsonMatch) {
-      throw new Error('Invalid JSON response from AI');
+    // Try multiple parsing strategies
+    let activities;
+    
+    // Strategy 1: Remove markdown code blocks and extract JSON
+    let cleanText = generatedText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+    
+    // Strategy 2: Find JSON array in the text
+    const jsonMatch = cleanText.match(/\[[\s\S]*\]/);
+    
+    if (jsonMatch) {
+      try {
+        activities = JSON.parse(jsonMatch[0]);
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError);
+        throw new Error('Failed to parse AI response as JSON');
+      }
+    } else {
+      console.error('No JSON array found in response:', cleanText);
+      throw new Error('AI response did not contain a valid JSON array');
     }
-
-    const activities = JSON.parse(jsonMatch[0]);
 
     return new Response(JSON.stringify({ activities }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
