@@ -1,5 +1,7 @@
-import { User } from "lucide-react";
+import { User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 import logo from "@/assets/fitai-logo.png";
 
 interface DashboardHeaderProps {
@@ -8,6 +10,17 @@ interface DashboardHeaderProps {
 }
 
 const DashboardHeader = ({ userName, onProfileClick }: DashboardHeaderProps) => {
+  const { signOut } = useAuth();
+  const { toast } = useToast();
+
+  const handleSignOut = async () => {
+    await signOut();
+    toast({
+      title: 'Signed out',
+      description: 'You have been signed out successfully.',
+    });
+  };
+
   return (
     <header className="border-b border-border/30 bg-background/95 backdrop-blur-xl sticky top-0 z-50" style={{ boxShadow: "0 4px 24px -4px rgba(0,0,0,0.06)" }}>
       <div className="container mx-auto px-6 py-6 flex items-center justify-between max-w-7xl">
@@ -40,6 +53,15 @@ const DashboardHeader = ({ userName, onProfileClick }: DashboardHeaderProps) => 
           >
             <User className="w-4 h-4" />
             <span className="hidden sm:inline font-semibold">{userName}</span>
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="gap-2 hover:scale-105 h-10 px-4 rounded-xl text-destructive hover:text-destructive"
+            onClick={handleSignOut}
+          >
+            <LogOut className="w-4 h-4" />
+            <span className="hidden sm:inline font-semibold">Sign Out</span>
           </Button>
         </div>
       </div>
