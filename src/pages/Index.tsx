@@ -94,25 +94,6 @@ const Index = () => {
                     4 of 5 workouts completed this week. Keep the momentum going!
                   </p>
                 </div>
-                
-                {/* Quick Action Chips */}
-                <div className="flex flex-wrap gap-3">
-                  {[
-                    { label: "Warm-up", icon: "🔥", color: "from-coral to-secondary" },
-                    { label: "Strength", icon: "💪", color: "from-mint to-primary" },
-                    { label: "Cardio", icon: "⚡", color: "from-secondary to-coral" },
-                    { label: "Recovery", icon: "🧘", color: "from-lavender to-accent" },
-                  ].map((chip) => (
-                    <button
-                      key={chip.label}
-                      className={`group px-5 py-2.5 rounded-full bg-gradient-to-r ${chip.color} text-white font-semibold text-sm hover-lift transition-all duration-300 hover:scale-105 flex items-center gap-2`}
-                      style={{ boxShadow: "var(--shadow-soft)" }}
-                    >
-                      <span>{chip.icon}</span>
-                      <span>{chip.label}</span>
-                    </button>
-                  ))}
-                </div>
               </div>
 
               {/* Hero Progress Ring */}
