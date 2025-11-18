@@ -83,10 +83,6 @@ const Index = () => {
             <div className="relative z-10 grid md:grid-cols-2 gap-8 items-center">
               <div className="space-y-6">
                 <div className="space-y-3">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-background/20 backdrop-blur-md border border-background/30">
-                    <div className="w-2 h-2 rounded-full bg-coral animate-pulse" />
-                    <span className="text-sm font-semibold text-white">12-Day Streak 🔥</span>
-                  </div>
                   <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight">
                     You're Crushing It, {userName}!
                   </h1>
