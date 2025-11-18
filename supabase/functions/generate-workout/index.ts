@@ -67,24 +67,71 @@ Include a mix of workout, nutrition, and recovery activities. Be specific and ac
     if (!response.ok) {
       const errorText = await response.text();
       console.error('OpenAI API error:', response.status, errorText);
-      throw new Error(`OpenAI API error: ${response.status}`);
+      return new Response(JSON.stringify({ 
+        error: `OpenAI API error: ${response.status}`,
+        details: errorText 
+      }), {
+        status: response.status,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     const data = await response.json();
-    const generatedText = data.choices[0].message.content;
-
-    console.log('Generated workout text:', generatedText);
-
-    // Parse the JSON object (JSON mode guarantees valid JSON)
-    const parsed = JSON.parse(generatedText);
-    const activities = parsed.activities;
-
-    if (!Array.isArray(activities)) {
-      console.error('Response structure invalid:', parsed);
-      throw new Error('AI response did not contain activities array');
+    
+    // Validate response structure
+    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+      console.error('Invalid OpenAI response structure:', data);
+      return new Response(JSON.stringify({ 
+        error: 'Invalid response from AI service',
+        details: 'Missing expected data structure'
+      }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
+    const generatedText = data.choices[0].message.content;
+
+    // Log the raw response for debugging
+    console.log('Raw AI response:', generatedText);
+
+    // Safely parse the JSON
+    let parsed;
+    try {
+      if (!generatedText || generatedText.trim() === '') {
+        throw new Error('AI returned empty response');
+      }
+      parsed = JSON.parse(generatedText);
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError);
+      console.error('Failed to parse text:', generatedText);
+      return new Response(JSON.stringify({ 
+        error: 'Failed to parse AI response',
+        details: parseError instanceof Error ? parseError.message : 'Invalid JSON format'
+      }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Validate the activities array
+    if (!parsed.activities || !Array.isArray(parsed.activities)) {
+      console.error('Response missing activities array:', parsed);
+      return new Response(JSON.stringify({ 
+        error: 'AI response did not contain activities array',
+        details: 'Expected an object with an activities array'
+      }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    const activities = parsed.activities;
+
+    console.log(`Successfully generated ${activities.length} activities`);
+
     return new Response(JSON.stringify({ activities }), {
+      status: 200,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
