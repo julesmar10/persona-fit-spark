@@ -78,41 +78,6 @@ const Index = () => {
       {/* Main Content */}
       <main className="container mx-auto px-6 py-8 max-w-7xl">
         <div className="space-y-12">
-
-              {/* Hero Progress Ring */}
-              <div className="flex justify-center">
-                <div className="relative">
-                  <svg className="transform -rotate-90 w-48 h-48 md:w-56 md:h-56">
-                    <circle
-                      cx="112"
-                      cy="112"
-                      r="100"
-                      stroke="rgba(255,255,255,0.2)"
-                      strokeWidth="12"
-                      fill="none"
-                    />
-                    <circle
-                      cx="112"
-                      cy="112"
-                      r="100"
-                      stroke="white"
-                      strokeWidth="12"
-                      fill="none"
-                      strokeDasharray={`${(4/5) * 2 * Math.PI * 100} ${2 * Math.PI * 100}`}
-                      strokeLinecap="round"
-                      className="animate-glow"
-                      style={{ filter: "drop-shadow(0 0 8px rgba(255,255,255,0.5))" }}
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <p className="text-5xl md:text-6xl font-bold text-white">80%</p>
-                    <p className="text-sm text-white/90 mt-2">Weekly Goal</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
           {/* Achievement Banner */}
           <AchievementBanner />
 
@@ -169,24 +134,15 @@ const Index = () => {
 
         {/* Footer Spacing */}
         <div className="py-12 text-center text-muted-foreground">
-          <p className="text-sm">
-            Your journey to better health, powered by AI that adapts to you
-          </p>
+          <p className="text-sm">Your journey to better health, powered by AI that adapts to you</p>
         </div>
       </main>
 
       {/* Consent Modal */}
-      <ConsentModal 
-        open={showConsentModal} 
-        onComplete={() => setShowConsentModal(false)} 
-      />
+      <ConsentModal open={showConsentModal} onComplete={() => setShowConsentModal(false)} />
 
       {/* User Profile Modal */}
-      <UserProfile
-        open={showUserProfile}
-        onOpenChange={setShowUserProfile}
-        userName={userName}
-      />
+      <UserProfile open={showUserProfile} onOpenChange={setShowUserProfile} userName={userName} />
     </div>
   );
 };
