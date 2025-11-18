@@ -78,20 +78,6 @@ const Index = () => {
       {/* Main Content */}
       <main className="container mx-auto px-6 py-8 max-w-7xl">
         <div className="space-y-12">
-          {/* Hero Progress Section */}
-          <section className="relative overflow-hidden rounded-3xl bg-gradient-hero p-8 md:p-12 animate-fade-in" style={{ boxShadow: "var(--shadow-hover)" }}>
-            <div className="absolute inset-0 bg-background/5 backdrop-blur-[1px]" />
-            <div className="relative z-10 grid md:grid-cols-2 gap-8 items-center">
-              <div className="space-y-6">
-                <div className="space-y-3">
-                  <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight">
-                    You're Crushing It, {userName}!
-                  </h1>
-                  <p className="text-xl text-white/90">
-                    4 of 5 workouts completed this week. Keep the momentum going!
-                  </p>
-                </div>
-              </div>
 
               {/* Hero Progress Ring */}
               <div className="flex justify-center">
