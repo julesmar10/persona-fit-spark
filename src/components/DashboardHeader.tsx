@@ -1,5 +1,6 @@
-import { Dumbbell, User } from "lucide-react";
+import { User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/fitai-logo.png";
 
 interface DashboardHeaderProps {
   userName: string;
@@ -13,8 +14,8 @@ const DashboardHeader = ({ userName, onProfileClick }: DashboardHeaderProps) => 
         <div className="flex items-center gap-5">
           <div className="relative group">
             <div className="absolute inset-0 bg-gradient-hero rounded-2xl blur-md opacity-50 group-hover:opacity-75 transition-opacity" />
-            <div className="relative w-14 h-14 rounded-2xl bg-gradient-hero flex items-center justify-center" style={{ boxShadow: "var(--shadow-glow-mint)" }}>
-              <Dumbbell className="w-8 h-8 text-white" />
+            <div className="relative w-14 h-14 rounded-2xl bg-gradient-hero flex items-center justify-center p-2" style={{ boxShadow: "var(--shadow-glow-mint)" }}>
+              <img src={logo} alt="FitAI Coach Logo" className="w-full h-full object-contain" />
             </div>
           </div>
           <div>
