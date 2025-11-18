@@ -28,20 +28,22 @@ serve(async (req) => {
 
     const goalText = goalPrompts[userGoal] || "general fitness";
 
-    const prompt = `Generate a personalized daily workout plan focused on ${goalText}. 
-    
-Return ONLY a valid JSON array of 3-4 activities with this exact structure:
-[
-  {
-    "type": "workout",
-    "title": "Activity name",
-    "duration": "XX min",
-    "intensity": "High/Medium/Low",
-    "description": "Brief description",
-    "calories": "XXX cal",
-    "completed": false
-  }
-]
+const prompt = `Generate a personalized daily workout plan focused on ${goalText}. 
+
+Return a JSON object with an "activities" array containing 3-4 activities. Use this exact structure:
+{
+  "activities": [
+    {
+      "type": "workout",
+      "title": "Activity name",
+      "duration": "XX min",
+      "intensity": "High/Medium/Low",
+      "description": "Brief description",
+      "calories": "XXX cal",
+      "completed": false
+    }
+  ]
+}
 
 Include a mix of workout, nutrition, and recovery activities. Be specific and actionable.`;
 
@@ -54,10 +56,11 @@ Include a mix of workout, nutrition, and recovery activities. Be specific and ac
       body: JSON.stringify({
         model: 'gpt-5-nano-2025-08-07',
         messages: [
-          { role: 'system', content: 'You are a professional fitness trainer. Return only valid JSON arrays.' },
+          { role: 'system', content: 'You are a professional fitness trainer. You must respond with valid JSON only.' },
           { role: 'user', content: prompt }
         ],
         max_completion_tokens: 800,
+        response_format: { type: "json_object" }
       }),
     });
 
@@ -72,25 +75,13 @@ Include a mix of workout, nutrition, and recovery activities. Be specific and ac
 
     console.log('Generated workout text:', generatedText);
 
-    // Try multiple parsing strategies
-    let activities;
-    
-    // Strategy 1: Remove markdown code blocks and extract JSON
-    let cleanText = generatedText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-    
-    // Strategy 2: Find JSON array in the text
-    const jsonMatch = cleanText.match(/\[[\s\S]*\]/);
-    
-    if (jsonMatch) {
-      try {
-        activities = JSON.parse(jsonMatch[0]);
-      } catch (parseError) {
-        console.error('JSON parse error:', parseError);
-        throw new Error('Failed to parse AI response as JSON');
-      }
-    } else {
-      console.error('No JSON array found in response:', cleanText);
-      throw new Error('AI response did not contain a valid JSON array');
+    // Parse the JSON object (JSON mode guarantees valid JSON)
+    const parsed = JSON.parse(generatedText);
+    const activities = parsed.activities;
+
+    if (!Array.isArray(activities)) {
+      console.error('Response structure invalid:', parsed);
+      throw new Error('AI response did not contain activities array');
     }
 
     return new Response(JSON.stringify({ activities }), {
