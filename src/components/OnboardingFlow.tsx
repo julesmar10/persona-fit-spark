@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Badge } from "@/components/ui/badge";
 import { Sparkles, Target, Clock, Dumbbell, Heart, ChevronRight, CheckCircle2 } from "lucide-react";
+import logo from "@/assets/fitai-logo.png";
 
 interface OnboardingFlowProps {
   onComplete: (data: OnboardingData) => void;
@@ -48,6 +49,16 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <Card className="w-full max-w-2xl p-8 border-border/50 shadow-card animate-fade-in">
+        {/* Logo */}
+        <div className="flex justify-center mb-8">
+          <div className="relative group">
+            <div className="absolute inset-0 bg-gradient-hero rounded-2xl blur-md opacity-50 group-hover:opacity-75 transition-opacity" />
+            <div className="relative w-16 h-16 rounded-2xl bg-gradient-hero flex items-center justify-center p-3" style={{ boxShadow: "var(--shadow-glow-mint)" }}>
+              <img src={logo} alt="FitAI Coach Logo" className="w-full h-full object-contain" />
+            </div>
+          </div>
+        </div>
+        
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex justify-between mb-2">
