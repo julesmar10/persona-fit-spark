@@ -1,1 +1,7 @@
 project_id = "nlyqzkkrnlgakxsauyag"
+
+[functions.ai-companion-chat]
+verify_jwt = false
+
+[functions.generate-workout]
+verify_jwt = false
