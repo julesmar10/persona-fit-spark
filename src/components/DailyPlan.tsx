@@ -1,7 +1,10 @@
-import { Clock, Zap, CheckCircle2, Apple, Moon, Dumbbell, Heart, ThumbsUp, Frown, Battery } from "lucide-react";
+import { Clock, Zap, CheckCircle2, Apple, Moon, Dumbbell, Heart, ThumbsUp, Frown, Battery, Sparkles, Loader2, AlertCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -20,8 +23,15 @@ interface Activity {
   feedback?: FeedbackType;
 }
 
-const DailyPlan = () => {
+interface DailyPlanProps {
+  userGoal?: string;
+}
+
+const DailyPlan = ({ userGoal = "lose-weight" }: DailyPlanProps) => {
   const { toast } = useToast();
+  const [apiKey, setApiKey] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [showApiKeyInput, setShowApiKeyInput] = useState(false);
   const [activities, setActivities] = useState<Activity[]>([
     {
       id: 1,
@@ -131,19 +141,173 @@ const DailyPlan = () => {
     ));
   };
 
+  const generateAIRecommendations = async () => {
+    if (!apiKey.trim()) {
+      toast({
+        title: "API Key Required",
+        description: "Please enter your OpenAI API key to generate recommendations.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsGenerating(true);
+
+    try {
+      const goalDescriptions: Record<string, string> = {
+        "lose-weight": "weight loss and fat burning with high-calorie burn exercises",
+        "build-strength": "strength building and muscle growth with resistance training",
+        "stay-consistent": "consistent habit formation with moderate, sustainable workouts",
+        "improve-endurance": "cardiovascular endurance and stamina improvement",
+      };
+
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          messages: [
+            {
+              role: "system",
+              content: "You are a professional fitness coach. Generate exactly 3 diverse workout recommendations in JSON format."
+            },
+            {
+              role: "user",
+              content: `Generate 3 new workout recommendations for someone focused on ${goalDescriptions[userGoal] || "general fitness"}. Return ONLY a JSON array with this exact structure: [{"title": "workout name", "duration": "X min", "intensity": "High/Medium/Low", "description": "brief description", "calories": "X cal"}]. No extra text.`
+            }
+          ],
+          temperature: 0.8,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const content = data.choices[0].message.content;
+      
+      // Parse the JSON response
+      const workouts = JSON.parse(content);
+      
+      // Add the AI-generated workouts to the activities
+      const newActivities = workouts.map((workout: any, index: number) => ({
+        id: activities.length + index + 1,
+        type: "workout" as ActivityType,
+        title: workout.title,
+        duration: workout.duration,
+        intensity: workout.intensity,
+        completed: false,
+        description: workout.description,
+        calories: workout.calories,
+      }));
+
+      setActivities([...activities, ...newActivities]);
+
+      toast({
+        title: "✨ AI Recommendations Generated!",
+        description: `Added 3 personalized workouts for ${userGoal.replace("-", " ")}`,
+      });
+    } catch (error) {
+      console.error("Error generating recommendations:", error);
+      toast({
+        title: "Generation Failed",
+        description: "Could not generate recommendations. Please check your API key and try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   return (
     <section className="animate-fade-in" style={{ animationDelay: "0.2s" }}>
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h2 className="text-2xl font-bold text-foreground">Today's Plan</h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            Personalized for your energy levels and goals
-          </p>
+      <div className="flex flex-col gap-4 mb-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold text-foreground">Today's Plan</h2>
+            <p className="text-sm text-muted-foreground mt-1">
+              Personalized for your energy levels and goals
+            </p>
+          </div>
+          <Badge variant="outline" className="gap-2">
+            <Zap className="w-3 h-3 text-secondary" />
+            Adaptive Mode On
+          </Badge>
         </div>
-        <Badge variant="outline" className="gap-2">
-          <Zap className="w-3 h-3 text-secondary" />
-          Adaptive Mode On
-        </Badge>
+
+        {/* AI Recommendations Section */}
+        <Card className="p-4 bg-gradient-to-br from-mint/5 to-primary/5 border-mint/20">
+          <div className="flex flex-col gap-3">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-1">
+                  <Sparkles className="w-5 h-5 text-mint" />
+                  <h3 className="font-semibold text-foreground">AI Workout Generator</h3>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Get personalized workout recommendations based on your {userGoal.replace("-", " ")} goal
+                </p>
+              </div>
+              <Button
+                onClick={() => setShowApiKeyInput(!showApiKeyInput)}
+                variant="outline"
+                size="sm"
+                className="shrink-0"
+              >
+                {showApiKeyInput ? "Hide" : "Setup"}
+              </Button>
+            </div>
+
+            {showApiKeyInput && (
+              <div className="space-y-3 pt-3 border-t border-border/30">
+                <Alert variant="destructive" className="bg-destructive/5">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription className="text-xs">
+                    <strong>Security Warning:</strong> Your API key will be sent directly to OpenAI from your browser. 
+                    For production apps, use a backend service. Never share your API key publicly.
+                  </AlertDescription>
+                </Alert>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="api-key" className="text-sm">OpenAI API Key</Label>
+                  <Input
+                    id="api-key"
+                    type="password"
+                    placeholder="sk-..."
+                    value={apiKey}
+                    onChange={(e) => setApiKey(e.target.value)}
+                    className="font-mono text-sm"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Get your API key from <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-mint hover:underline">platform.openai.com/api-keys</a>
+                  </p>
+                </div>
+              </div>
+            )}
+
+            <Button
+              onClick={generateAIRecommendations}
+              disabled={isGenerating || !apiKey.trim()}
+              className="w-full bg-gradient-to-r from-mint to-primary hover:opacity-90"
+            >
+              {isGenerating ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Generate AI Recommendations
+                </>
+              )}
+            </Button>
+          </div>
+        </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

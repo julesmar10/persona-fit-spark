@@ -102,7 +102,7 @@ const Index = () => {
           <WorkoutGrid />
 
           {/* Daily Plan Section */}
-          {isLoading ? <DailyPlanSkeleton /> : <DailyPlan />}
+          {isLoading ? <DailyPlanSkeleton /> : <DailyPlan userGoal={onboardingData?.goal} />}
 
           {/* Plan Rating */}
           <PlanRatingCard />
