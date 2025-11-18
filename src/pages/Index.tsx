@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import DashboardHeader from "@/components/DashboardHeader";
 import ProgressOverview from "@/components/ProgressOverview";
 import DailyPlan from "@/components/DailyPlan";
@@ -26,13 +28,46 @@ import { DailyPlanSkeleton, DashboardSkeleton } from "@/components/LoadingState"
 type AppState = "onboarding" | "summary" | "dashboard";
 
 const Index = () => {
+  const { user, loading: authLoading, signOut } = useAuth();
+  const navigate = useNavigate();
   const [appState, setAppState] = useState<AppState>("onboarding");
   const [onboardingData, setOnboardingData] = useState<OnboardingData | null>(null);
-  const [userName] = useState("Alex");
+  const [userName, setUserName] = useState("User");
   const [showSkipHandler, setShowSkipHandler] = useState(false);
   const [showConsentModal, setShowConsentModal] = useState(false);
   const [showUserProfile, setShowUserProfile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Check authentication
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate("/auth");
+    }
+  }, [user, authLoading, navigate]);
+
+  // Set user name from profile
+  useEffect(() => {
+    if (user) {
+      const name = user.user_metadata?.full_name || user.email?.split("@")[0] || "User";
+      setUserName(name);
+    }
+  }, [user]);
+
+  // Show loading while checking auth
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <DashboardSkeleton />
+        </div>
+      </div>
+    );
+  }
+
+  // If not authenticated, don't render anything (will redirect)
+  if (!user) {
+    return null;
+  }
 
   const handleOnboardingComplete = (data: OnboardingData) => {
     setOnboardingData(data);
