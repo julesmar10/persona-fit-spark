@@ -183,15 +183,26 @@ const DailyPlan = ({ userGoal = "lose-weight" }: DailyPlanProps) => {
         }),
       });
 
+      const data = await response.json();
+      
       if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
+        // Extract OpenAI's error message
+        const errorMessage = data.error?.message || `API error: ${response.status}`;
+        throw new Error(errorMessage);
       }
 
-      const data = await response.json();
       const content = data.choices[0].message.content;
       
-      // Parse the JSON response
-      const workouts = JSON.parse(content);
+      // Parse the JSON response (handle markdown code blocks)
+      let workouts;
+      try {
+        // Remove markdown code blocks if present
+        const cleanContent = content.replace(/```json\n?|\n?```/g, '').trim();
+        workouts = JSON.parse(cleanContent);
+      } catch (parseError) {
+        console.error("Failed to parse AI response:", content);
+        throw new Error("Failed to parse AI recommendations. Please try again.");
+      }
       
       // Add the AI-generated workouts to the activities
       const newActivities = workouts.map((workout: any, index: number) => ({
@@ -213,9 +224,10 @@ const DailyPlan = ({ userGoal = "lose-weight" }: DailyPlanProps) => {
       });
     } catch (error) {
       console.error("Error generating recommendations:", error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
       toast({
         title: "Generation Failed",
-        description: "Could not generate recommendations. Please check your API key and try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
