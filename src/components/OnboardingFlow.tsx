@@ -280,14 +280,15 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
         )}
 
         {/* Navigation */}
-        <div className="flex justify-between mt-8 pt-6 border-t border-border">
-          <Button
-            variant="outline"
-            onClick={() => setStep(Math.max(1, step - 1))}
-            disabled={step === 1}
-          >
-            Back
-          </Button>
+        <div className={`flex ${step === 1 ? 'justify-end' : 'justify-between'} mt-8 pt-6 border-t border-border`}>
+          {step > 1 && (
+            <Button
+              variant="outline"
+              onClick={() => setStep(Math.max(1, step - 1))}
+            >
+              Back
+            </Button>
+          )}
           <Button
             onClick={handleNext}
             disabled={!isStepComplete()}
