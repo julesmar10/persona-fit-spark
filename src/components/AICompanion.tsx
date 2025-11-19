@@ -22,6 +22,7 @@ const AICompanion = () => {
     },
   ]);
   const [inputValue, setInputValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const quickReplies = [
     "I'm feeling energized! 💪",
@@ -30,8 +31,8 @@ const AICompanion = () => {
     "Need a rest day",
   ];
 
-  const handleSendMessage = (text: string) => {
-    if (!text.trim()) return;
+  const handleSendMessage = async (text: string) => {
+    if (!text.trim() || isLoading) return;
 
     const newMessage: Message = {
       id: messages.length + 1,
@@ -40,45 +41,58 @@ const AICompanion = () => {
       timestamp: new Date(),
     };
 
-    setMessages([...messages, newMessage]);
+    const updatedMessages = [...messages, newMessage];
+    setMessages(updatedMessages);
     setInputValue("");
+    setIsLoading(true);
 
-    // Emotionally intelligent AI responses based on context
-    const contextualResponses: Record<string, string> = {
-      "tired": "Rest is progress too — take it easy today. 💙 I've added a gentle recovery session tomorrow.",
-      "low energy": "I hear you. Let's shift today's plan to something lighter. Your body needs this break. 🧘",
-      "skip": "No problem! Recovery day activated. Tomorrow's plan will maintain your momentum without overload. ✨",
-      "hard": "You're pushing through — that's real strength. 💪 Tomorrow will be more balanced. Keep going!",
-      "easy": "Perfect! I'm adding a bonus challenge tomorrow since you're feeling strong. Let's build on this! 🔥",
-      "motivated": "Love this energy! ⚡ I'm optimizing your plan to match this momentum. You're unstoppable!",
-      "energized": "Perfect! 💪 I've analyzed your energy levels and optimized tomorrow's workout. You're building incredible momentum!",
-      "rest": "Rest is crucial for progress. 💙 I've scheduled a recovery day for tomorrow to help your muscles rebuild stronger.",
-      "ready": "That's the spirit! 🚀 Based on your excellent progress, I'm adding a bonus challenge to push your limits safely.",
-      "need": "I hear you. 🧘 I've adjusted your evening session to be more restorative with gentle stretching and breathing exercises.",
-    };
+    try {
+      const { supabase } = await import("@/integrations/supabase/client");
+      
+      const { data, error } = await supabase.functions.invoke('ai-companion', {
+        body: { 
+          message: text,
+          conversationHistory: updatedMessages.slice(0, -1) // Send all messages except the one we just added
+        }
+      });
 
-    let aiResponseText = "That sounds great! I've adjusted tomorrow's workout to build on today's momentum. 💪";
-    
-    // Check for contextual keywords
-    const lowerText = text.toLowerCase();
-    for (const [keyword, response] of Object.entries(contextualResponses)) {
-      if (lowerText.includes(keyword)) {
-        aiResponseText = response;
-        break;
+      if (error) {
+        console.error('Edge function error:', error);
+        throw new Error(error.message || 'Failed to get AI response');
       }
-    }
-    
-    // Simulate quick AI response (< 1 second for perceived responsiveness)
-    setTimeout(() => {
+
+      if (data?.error) {
+        console.error('AI error:', data.error);
+        throw new Error(data.error);
+      }
+
+      if (!data?.reply) {
+        throw new Error('No response from AI');
+      }
+
       const aiMessage: Message = {
-        id: messages.length + 2,
-        text: aiResponseText,
+        id: updatedMessages.length + 1,
+        text: data.reply,
         sender: "ai",
         timestamp: new Date(),
       };
       
       setMessages((prev) => [...prev, aiMessage]);
-    }, 800);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      
+      // Show error message in chat
+      const errorMessage: Message = {
+        id: updatedMessages.length + 1,
+        text: "Sorry, I'm having trouble connecting right now. Please try again in a moment.",
+        sender: "ai",
+        timestamp: new Date(),
+      };
+      
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -141,6 +155,7 @@ const AICompanion = () => {
                 size="sm"
                 onClick={() => handleSendMessage(reply)}
                 className="text-sm hover-lift"
+                disabled={isLoading}
               >
                 {reply}
               </Button>
@@ -152,10 +167,16 @@ const AICompanion = () => {
               placeholder="Share your thoughts..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSendMessage(inputValue)}
+              onKeyDown={(e) => e.key === "Enter" && !isLoading && handleSendMessage(inputValue)}
               className="flex-1 h-11 rounded-xl"
+              disabled={isLoading}
             />
-            <Button onClick={() => handleSendMessage(inputValue)} size="icon" className="h-11 w-11">
+            <Button 
+              onClick={() => handleSendMessage(inputValue)} 
+              size="icon" 
+              className="h-11 w-11"
+              disabled={isLoading}
+            >
               <Send className="w-5 h-5" />
             </Button>
           </div>

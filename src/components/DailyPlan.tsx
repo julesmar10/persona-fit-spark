@@ -29,9 +29,7 @@ interface DailyPlanProps {
 
 const DailyPlan = ({ userGoal = "lose-weight" }: DailyPlanProps) => {
   const { toast } = useToast();
-  const [apiKey, setApiKey] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [showApiKeyInput, setShowApiKeyInput] = useState(false);
   const [activities, setActivities] = useState<Activity[]>([
     {
       id: 1,
@@ -142,92 +140,53 @@ const DailyPlan = ({ userGoal = "lose-weight" }: DailyPlanProps) => {
   };
 
   const generateAIRecommendations = async () => {
-    if (!apiKey.trim()) {
-      toast({
-        title: "API Key Required",
-        description: "Please enter your OpenAI API key to generate recommendations.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setIsGenerating(true);
-
+    
     try {
-      const goalDescriptions: Record<string, string> = {
-        "lose-weight": "weight loss and fat burning with high-calorie burn exercises",
-        "build-strength": "strength building and muscle growth with resistance training",
-        "stay-consistent": "consistent habit formation with moderate, sustainable workouts",
-        "improve-endurance": "cardiovascular endurance and stamina improvement",
-      };
-
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model: "gpt-4o-mini",
-          messages: [
-            {
-              role: "system",
-              content: "You are a professional fitness coach. Generate exactly 3 diverse workout recommendations in JSON format."
-            },
-            {
-              role: "user",
-              content: `Generate 3 new workout recommendations for someone focused on ${goalDescriptions[userGoal] || "general fitness"}. Return ONLY a JSON array with this exact structure: [{"title": "workout name", "duration": "X min", "intensity": "High/Medium/Low", "description": "brief description", "calories": "X cal"}]. No extra text.`
-            }
-          ],
-          temperature: 0.8,
-        }),
+      const { supabase } = await import("@/integrations/supabase/client");
+      
+      const { data, error } = await supabase.functions.invoke('generate-workout', {
+        body: { userGoal }
       });
 
-      const data = await response.json();
-      
-      if (!response.ok) {
-        // Extract OpenAI's error message
-        const errorMessage = data.error?.message || `API error: ${response.status}`;
-        throw new Error(errorMessage);
+      if (error) {
+        console.error('Edge function error:', error);
+        throw new Error(error.message || 'Failed to generate workouts');
       }
 
-      const content = data.choices[0].message.content;
-      
-      // Parse the JSON response (handle markdown code blocks)
-      let workouts;
-      try {
-        // Remove markdown code blocks if present
-        const cleanContent = content.replace(/```json\n?|\n?```/g, '').trim();
-        workouts = JSON.parse(cleanContent);
-      } catch (parseError) {
-        console.error("Failed to parse AI response:", content);
-        throw new Error("Failed to parse AI recommendations. Please try again.");
+      if (data?.error) {
+        console.error('AI generation error:', data.error);
+        throw new Error(data.error);
       }
-      
-      // Add the AI-generated workouts to the activities
-      const newActivities = workouts.map((workout: any, index: number) => ({
+
+      if (!data?.workouts || !Array.isArray(data.workouts)) {
+        throw new Error('Invalid response format from AI');
+      }
+
+      // Transform AI workouts into activities
+      const newActivities: Activity[] = data.workouts.map((workout: any, index: number) => ({
         id: activities.length + index + 1,
-        type: "workout" as ActivityType,
-        title: workout.title,
-        duration: workout.duration,
-        intensity: workout.intensity,
+        type: "workout" as const,
+        title: workout.title || `AI Workout ${index + 1}`,
+        duration: workout.duration || "30 min",
+        intensity: workout.intensity || "Medium",
         completed: false,
-        description: workout.description,
-        calories: workout.calories,
+        description: workout.description || "AI-generated workout",
+        calories: workout.calories || "250 cal",
+        feedback: null,
       }));
 
       setActivities([...activities, ...newActivities]);
 
       toast({
-        title: "✨ AI Recommendations Generated!",
-        description: `Added 3 personalized workouts for ${userGoal.replace("-", " ")}`,
+        title: "AI Workouts Generated! 🎯",
+        description: `Added ${newActivities.length} personalized workouts to your plan.`,
       });
     } catch (error) {
-      console.error("Error generating recommendations:", error);
-      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+      console.error('Error generating AI recommendations:', error);
       toast({
         title: "Generation Failed",
-        description: errorMessage,
+        description: error instanceof Error ? error.message : "Failed to generate AI recommendations. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -264,46 +223,11 @@ const DailyPlan = ({ userGoal = "lose-weight" }: DailyPlanProps) => {
                   Get personalized workout recommendations based on your {userGoal.replace("-", " ")} goal
                 </p>
               </div>
-              <Button
-                onClick={() => setShowApiKeyInput(!showApiKeyInput)}
-                variant="outline"
-                size="sm"
-                className="shrink-0"
-              >
-                {showApiKeyInput ? "Hide" : "Setup"}
-              </Button>
             </div>
-
-            {showApiKeyInput && (
-              <div className="space-y-3 pt-3 border-t border-border/30">
-                <Alert variant="destructive" className="bg-destructive/5">
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription className="text-xs">
-                    <strong>Security Warning:</strong> Your API key will be sent directly to OpenAI from your browser. 
-                    For production apps, use a backend service. Never share your API key publicly.
-                  </AlertDescription>
-                </Alert>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="api-key" className="text-sm">OpenAI API Key</Label>
-                  <Input
-                    id="api-key"
-                    type="password"
-                    placeholder="sk-..."
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                    className="font-mono text-sm"
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    Get your API key from <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-mint hover:underline">platform.openai.com/api-keys</a>
-                  </p>
-                </div>
-              </div>
-            )}
 
             <Button
               onClick={generateAIRecommendations}
-              disabled={isGenerating || !apiKey.trim()}
+              disabled={isGenerating}
               className="w-full bg-gradient-to-r from-mint to-primary hover:opacity-90"
             >
               {isGenerating ? (
