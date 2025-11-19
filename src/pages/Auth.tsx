@@ -121,9 +121,6 @@ const Auth = () => {
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? 'Signing in...' : 'Sign In'}
                 </Button>
-                <p className="text-sm text-muted-foreground text-center mt-4">
-                  Demo users: joe@example.com / jane@example.com (password: joe / jane)
-                </p>
               </form>
             </TabsContent>
             
