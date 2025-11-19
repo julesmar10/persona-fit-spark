@@ -177,7 +177,7 @@ const Index = () => {
       <ConsentModal open={showConsentModal} onComplete={() => setShowConsentModal(false)} />
 
       {/* User Profile Modal */}
-      <UserProfile open={showUserProfile} onOpenChange={setShowUserProfile} userName={userName} />
+      <UserProfile open={showUserProfile} onOpenChange={setShowUserProfile} userName={userName} onboardingData={onboardingData} />
     </div>
   );
 };
