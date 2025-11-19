@@ -109,9 +109,30 @@ Make the workouts varied (e.g., HIIT, strength, cardio) and appropriate for the 
       );
     }
 
+    // Extract and parse the nested JSON content from OpenAI response
+    let workoutsData;
+    try {
+      const content = data.choices[0].message.content;
+      console.log('Content from OpenAI:', content);
+      workoutsData = JSON.parse(content);
+    } catch (contentParseError) {
+      console.error('Failed to extract content from OpenAI response:', contentParseError);
+      console.error('OpenAI response structure:', JSON.stringify(data, null, 2));
+      return new Response(
+        JSON.stringify({ 
+          error: 'Failed to extract workout data from AI response',
+          details: 'The AI response structure was unexpected.'
+        }),
+        { 
+          status: 500, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      );
+    }
+
     // Validate the response structure
-    if (!data.workouts || !Array.isArray(data.workouts)) {
-      console.error('Invalid response structure:', data);
+    if (!workoutsData.workouts || !Array.isArray(workoutsData.workouts)) {
+      console.error('Invalid response structure:', workoutsData);
       return new Response(
         JSON.stringify({ 
           error: 'Invalid response structure',
@@ -124,10 +145,10 @@ Make the workouts varied (e.g., HIIT, strength, cardio) and appropriate for the 
       );
     }
 
-    console.log('Successfully generated', data.workouts.length, 'workouts');
+    console.log('Successfully generated', workoutsData.workouts.length, 'workouts');
     
     return new Response(
-      JSON.stringify({ workouts: data.workouts }),
+      JSON.stringify({ workouts: workoutsData.workouts }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
       }
