@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Bot, Send, Sparkles } from "lucide-react";
+import { Bot, Send } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import logo from "@/assets/fitai-logo.png";
 
 interface Message {
   id: number;
@@ -110,8 +111,8 @@ const AICompanion = () => {
       <Card className="border-border/50 overflow-hidden hover-lift" style={{ boxShadow: "var(--shadow-card)" }}>
         <div className="bg-gradient-card p-6 border-b border-border/50">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-hero flex items-center justify-center animate-glow" style={{ boxShadow: "var(--shadow-glow-mint)" }}>
-              <Sparkles className="w-6 h-6 text-primary-foreground" />
+            <div className="w-12 h-12 rounded-2xl bg-gradient-hero flex items-center justify-center animate-glow p-2" style={{ boxShadow: "var(--shadow-glow-mint)" }}>
+              <img src={logo} alt="FitAI Logo" className="w-full h-full object-contain" />
             </div>
             <div>
               <p className="font-bold text-foreground text-lg">FitAI Assistant</p>
