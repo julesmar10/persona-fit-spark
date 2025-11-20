@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Star, ThumbsUp, MessageSquare } from "lucide-react";
+import { Star, ThumbsUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import logo from "@/assets/fitai-logo.png";
 
 const PlanRatingCard = () => {
   const { toast } = useToast();
@@ -48,8 +49,8 @@ const PlanRatingCard = () => {
   return (
     <Card className="p-8 border-border/50 hover:border-coral/30 transition-all duration-300 hover-lift group" style={{ boxShadow: "var(--shadow-card)" }}>
       <div className="flex items-start gap-5 mb-6">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-energy flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform" style={{ boxShadow: "var(--shadow-glow-coral)" }}>
-          <MessageSquare className="w-7 h-7 text-white" />
+        <div className="w-14 h-14 rounded-2xl bg-gradient-energy flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform p-2" style={{ boxShadow: "var(--shadow-glow-coral)" }}>
+          <img src={logo} alt="FitAI Logo" className="w-full h-full object-contain" />
         </div>
         <div className="flex-1">
           <h3 className="text-xl font-bold text-foreground mb-2">Quick Check-In</h3>
